@@ -1,5 +1,5 @@
 /* =========================================================
-   Vikas Kumar — Portfolio
+   Vikas Mohan — Portfolio
    ========================================================= */
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
