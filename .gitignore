@@ -1,0 +1,13 @@
+# Local deploy scripts (contain secrets — never commit)
+_deploy/
+
+# Private reference material (not for the public site)
+Profile.pdf
+
+# Internal build brief
+HANDOFF.md
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.local

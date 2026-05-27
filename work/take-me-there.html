@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Take Me There — Vikas Kumar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500&family=Schibsted+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <a href="../index.html" class="brand" aria-label="Vikas Kumar — home"><span class="vk">VK</span></a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="../index.html#method">Method</a>
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#timeline">Timeline</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <span>Menu</span>
+      <span class="bars" aria-hidden="true"><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<section class="case-hero">
+  <div class="wrap">
+    <div class="case-copy">
+      <a href="../index.html#work" class="case-back">
+        <svg width="32" height="10" viewBox="0 0 32 10" fill="none" aria-hidden="true"><path d="M32 5H4M10 1L4 5l6 4" stroke="currentColor"/></svg>
+        All projects
+      </a>
+      <span class="case-num reveal">01</span>
+      <h1 class="case-title reveal" data-delay="1">Take Me There</h1>
+      <div class="case-sub reveal" data-delay="2">3-wall AI portal installation</div>
+      <p class="case-desc reveal" data-delay="3">
+        An immersive portal that uses AI to transport people into places they've never been — real places, rendered in real time.
+      </p>
+      <div class="case-actions reveal" data-delay="4">
+        <a class="btn primary" href="#">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0v12l10-6L0 0z"/></svg>
+          Watch trailer
+        </a>
+        <a class="link-arrow" href="https://github.com/vimo33/takemethere" target="_blank" rel="noopener">
+          View repo
+          <svg viewBox="0 0 40 12" fill="none" aria-hidden="true"><path d="M0 6h36M30 1l6 5-6 5" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
+      </div>
+
+      <div class="case-meta reveal" data-delay="5">
+        <div><div class="lbl">Role</div><div class="val">Creative Technologist</div></div>
+        <div><div class="lbl">Year</div><div class="val">2025</div></div>
+        <div><div class="lbl">Status</div><div class="val">Completed</div></div>
+        <div><div class="lbl">Team</div><div class="val">Solo Project</div></div>
+      </div>
+    </div>
+
+    <!-- Installation isometric illustration -->
+    <div class="case-illu reveal" data-delay="2">
+      <svg viewBox="0 0 720 580" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="portalG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#000"/>
+            <stop offset="55%" stop-color="#000"/>
+            <stop offset="62%" stop-color="#E3C982" stop-opacity=".95"/>
+            <stop offset="68%" stop-color="#fff3c0" stop-opacity=".9"/>
+            <stop offset="78%" stop-color="#7a5d2a" stop-opacity=".4"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#161108"/>
+            <stop offset="100%" stop-color="#08090b"/>
+          </linearGradient>
+          <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f1014"/>
+            <stop offset="100%" stop-color="#080910"/>
+          </linearGradient>
+          <linearGradient id="sceneG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5a5042" stop-opacity=".6"/>
+            <stop offset="50%" stop-color="#332a22" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#0a0907" stop-opacity=".6"/>
+          </linearGradient>
+        </defs>
+
+        <!-- back wall -->
+        <polygon points="160,90 560,90 560,400 160,400" fill="url(#wallG)" stroke="rgba(255,235,200,0.18)" stroke-width="0.6"/>
+        <!-- left wall -->
+        <polygon points="50,170 160,90 160,400 50,470" fill="url(#wallG)" stroke="rgba(255,235,200,0.18)" stroke-width="0.6"/>
+        <!-- right wall -->
+        <polygon points="670,170 560,90 560,400 670,470" fill="url(#wallG)" stroke="rgba(255,235,200,0.18)" stroke-width="0.6"/>
+        <!-- floor / circular podium -->
+        <polygon points="50,470 160,400 560,400 670,470 670,510 50,510" fill="url(#floorG)" stroke="rgba(255,235,200,0.12)" stroke-width="0.5"/>
+
+        <!-- ceiling lines -->
+        <line x1="160" y1="90" x2="50" y2="170" stroke="rgba(255,235,200,0.18)" stroke-width="0.6"/>
+        <line x1="560" y1="90" x2="670" y2="170" stroke="rgba(255,235,200,0.18)" stroke-width="0.6"/>
+        <line x1="50" y1="170" x2="670" y2="170" stroke="rgba(255,235,200,0.10)" stroke-width="0.5" stroke-dasharray="2 3"/>
+
+        <!-- AI scene on back wall: mountains silhouette + portal -->
+        <g clip-path="url(#sceneClip)">
+          <rect x="160" y="90" width="400" height="310" fill="url(#sceneG)" opacity=".8"/>
+          <path d="M160 360 L210 300 L250 330 L300 250 L360 320 L410 270 L470 320 L530 280 L560 320 L560 400 L160 400 Z"
+                fill="#0a0907" opacity=".85"/>
+          <path d="M160 380 L220 340 L290 360 L370 320 L450 360 L530 340 L560 360 L560 400 L160 400 Z"
+                fill="#000" opacity=".9"/>
+        </g>
+        <defs>
+          <clipPath id="sceneClip">
+            <rect x="160" y="90" width="400" height="310"/>
+          </clipPath>
+        </defs>
+
+        <!-- portal eclipse on back wall -->
+        <circle cx="360" cy="270" r="60" fill="url(#portalG)"/>
+
+        <!-- figure silhouette -->
+        <path d="M345 410
+                 L345 350
+                 C 345 340, 350 332, 355 327
+                 C 358 324, 358 320, 358 316
+                 C 358 308, 358 300, 360 300
+                 C 365 300, 372 308, 372 318
+                 C 372 322, 372 326, 376 330
+                 C 380 335, 384 342, 384 354
+                 L 384 410 Z"
+              fill="#000" opacity=".95"/>
+
+        <!-- floor circle -->
+        <ellipse cx="365" cy="450" rx="120" ry="14" fill="none" stroke="rgba(227,201,130,0.35)" stroke-width="0.6"/>
+        <ellipse cx="365" cy="450" rx="80" ry="9" fill="none" stroke="rgba(227,201,130,0.25)" stroke-width="0.5"/>
+        <ellipse cx="365" cy="450" rx="40" ry="5" fill="none" stroke="rgba(227,201,130,0.18)" stroke-width="0.4"/>
+
+        <!-- Wireframe outer cube -->
+        <g stroke="rgba(227,201,130,0.25)" fill="none" stroke-width="0.6">
+          <polyline points="50,170 50,470 670,470 670,170 50,170"/>
+          <polyline points="50,170 160,90 560,90 670,170"/>
+          <line x1="160" y1="90" x2="160" y2="400"/>
+          <line x1="560" y1="90" x2="560" y2="400"/>
+        </g>
+
+        <!-- ceiling projectors -->
+        <g>
+          <rect x="245" y="140" width="32" height="16" fill="#1b1c20" stroke="rgba(255,235,200,0.6)" stroke-width="0.6"/>
+          <circle cx="261" cy="160" r="3" fill="#fcefc9"/>
+          <rect x="445" y="140" width="32" height="16" fill="#1b1c20" stroke="rgba(255,235,200,0.6)" stroke-width="0.6"/>
+          <circle cx="461" cy="160" r="3" fill="#fcefc9"/>
+        </g>
+
+        <!-- ANNOTATIONS -->
+        <!-- Ceiling projectors -->
+        <line class="annot-line" x1="475" y1="148" x2="600" y2="120"/>
+        <circle class="annot-dot" cx="600" cy="120" r="2"/>
+        <text class="annot" x="610" y="118">CEILING MOUNTED</text>
+        <text class="annot" x="610" y="132">SHORT THROW PROJECTORS</text>
+
+        <!-- AI rendered environments -->
+        <line class="annot-line" x1="540" y1="210" x2="640" y2="210"/>
+        <circle class="annot-dot" cx="640" cy="210" r="2"/>
+        <text class="annot" x="650" y="208">AI RENDERED</text>
+        <text class="annot" x="650" y="222">ENVIRONMENTS</text>
+
+        <!-- Real-time interaction -->
+        <line class="annot-line" x1="520" y1="340" x2="640" y2="320"/>
+        <circle class="annot-dot" cx="640" cy="320" r="2"/>
+        <text class="annot" x="650" y="318">REAL-TIME</text>
+        <text class="annot" x="650" y="332">INTERACTION</text>
+
+        <!-- Positional audio -->
+        <line class="annot-line" x1="520" y1="430" x2="640" y2="420"/>
+        <circle class="annot-dot" cx="640" cy="420" r="2"/>
+        <text class="annot" x="650" y="418">POSITIONAL</text>
+        <text class="annot" x="650" y="432">AUDIO</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Problem / Approach / System / Outcomes -->
+<div class="wrap">
+  <div class="pmso reveal">
+    <div class="pmso-block">
+      <div class="hd">Problem</div>
+      <p>Travel is limited by time, cost, and access. Existing media can't replicate the feeling of truly being somewhere.</p>
+    </div>
+    <div class="pmso-block">
+      <div class="hd">Approach</div>
+      <p>Combine generative AI, spatial audio, and immersive projection to create a believable sense of place.</p>
+    </div>
+    <div class="pmso-block">
+      <div class="hd">System</div>
+      <p>Real-time environment generation with vision models, depth mapping, and context-aware interaction.</p>
+    </div>
+    <div class="pmso-block">
+      <div class="hd">Outcomes</div>
+      <p>A transportive experience that evokes wonder, presence, and emotional connection to the world.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Artifacts -->
+<div class="wrap artifacts">
+  <div class="head reveal">
+    <span class="ttl">Project Artifacts</span>
+    <a href="#" class="link-arrow">
+      View all artifacts
+      <svg viewBox="0 0 40 12" fill="none" aria-hidden="true"><path d="M0 6h36M30 1l6 5-6 5" stroke="currentColor" stroke-width="1"/></svg>
+    </a>
+  </div>
+  <div class="artifact-grid">
+    <a class="artifact-card reveal" data-delay="1" href="#">
+      <span class="n">01</span>
+      <span class="t">Trailer</span>
+      <span class="s">02:14</span>
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M5 2h7v7" stroke="currentColor"/></svg>
+      <svg class="bg" viewBox="0 0 200 200" fill="none">
+        <defs>
+          <radialGradient id="trG" cx="50%" cy="50%" r="50%"><stop offset="55%" stop-color="#000"/><stop offset="65%" stop-color="#E3C982" stop-opacity=".9"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="80" fill="url(#trG)"/>
+        <g transform="translate(85 85)">
+          <circle cx="15" cy="15" r="22" stroke="rgba(255,235,200,0.4)" fill="rgba(0,0,0,0.4)"/>
+          <polygon points="10,6 24,15 10,24" fill="rgba(255,235,200,0.8)"/>
+        </g>
+      </svg>
+    </a>
+    <a class="artifact-card reveal" data-delay="2" href="#">
+      <span class="n">02</span>
+      <span class="t">System Diagram</span>
+      <span class="s">PDF</span>
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M5 2h7v7" stroke="currentColor"/></svg>
+      <svg class="bg" viewBox="0 0 240 140" fill="none">
+        <g stroke="rgba(255,235,200,0.5)" fill="none" font-family="Geist Mono" font-size="6">
+          <rect x="20" y="20" width="44" height="18" rx="2"/>
+          <text x="42" y="32" text-anchor="middle" fill="rgba(255,235,200,0.7)">USER</text>
+          <rect x="120" y="20" width="64" height="18" rx="2"/>
+          <text x="152" y="32" text-anchor="middle" fill="rgba(255,235,200,0.7)">RENDER ENGINE</text>
+          <rect x="20" y="80" width="44" height="18" rx="2"/>
+          <text x="42" y="92" text-anchor="middle" fill="rgba(255,235,200,0.7)">VISION</text>
+          <rect x="74" y="80" width="44" height="18" rx="2"/>
+          <text x="96" y="92" text-anchor="middle" fill="rgba(255,235,200,0.7)">DEPTH</text>
+          <rect x="128" y="80" width="44" height="18" rx="2"/>
+          <text x="150" y="92" text-anchor="middle" fill="rgba(255,235,200,0.7)">AUDIO</text>
+          <path d="M64 29 L120 29"/>
+          <path d="M42 38 L42 80"/>
+          <path d="M96 38 L96 80"/>
+          <path d="M152 38 L150 80"/>
+        </g>
+      </svg>
+    </a>
+    <a class="artifact-card reveal" data-delay="3" href="#">
+      <span class="n">03</span>
+      <span class="t">Interface</span>
+      <span class="s">Figma</span>
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M5 2h7v7" stroke="currentColor"/></svg>
+      <svg class="bg" viewBox="0 0 220 140" fill="none">
+        <defs>
+          <linearGradient id="ifg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3a2f24"/><stop offset="100%" stop-color="#0a0b0d"/>
+          </linearGradient>
+        </defs>
+        <rect x="10" y="10" width="200" height="120" rx="2" fill="url(#ifg)" stroke="rgba(255,235,200,0.2)"/>
+        <path d="M10 90 L60 70 L110 80 L160 60 L210 90" stroke="rgba(255,235,200,0.4)" fill="none"/>
+        <g fill="rgba(255,235,200,0.25)">
+          <rect x="16" y="16" width="60" height="6"/>
+          <rect x="16" y="26" width="40" height="4"/>
+        </g>
+      </svg>
+    </a>
+    <a class="artifact-card reveal" data-delay="4" href="#">
+      <span class="n">04</span>
+      <span class="t">Prototype</span>
+      <span class="s">Web Experience</span>
+      <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M5 2h7v7" stroke="currentColor"/></svg>
+      <svg class="bg" viewBox="0 0 220 100" fill="none">
+        <g fill="#fcefc9">
+          <path d="M0 60 Q50 30 100 50 T220 35" stroke="rgba(255,235,200,0.5)" fill="none"/>
+          <circle cx="20" cy="58" r="1.4"/><circle cx="55" cy="40" r="1.4"/><circle cx="90" cy="50" r="1.4"/>
+          <circle cx="130" cy="45" r="1.4"/><circle cx="170" cy="38" r="1.4"/><circle cx="200" cy="36" r="1.4"/>
+        </g>
+        <g transform="translate(95 35)">
+          <circle r="14" stroke="rgba(255,235,200,0.4)" fill="rgba(0,0,0,0.5)"/>
+          <polygon points="-4,-6 8,0 -4,6" fill="rgba(255,235,200,0.8)"/>
+        </g>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<!-- Footer -->
+<section class="contact" id="contact" style="padding-bottom: 60px;">
+  <div class="wrap">
+    <footer class="site-foot">
+      <span class="label">Let's connect</span>
+      <a href="mailto:hello@vikaskumar.dev">
+        <span class="ic"><svg width="14" height="10" viewBox="0 0 14 10" fill="none"><rect x="0.5" y="0.5" width="13" height="9" stroke="currentColor"/><path d="M1 1l6 5 6-5" stroke="currentColor" fill="none"/></svg></span>
+        hello@vikaskumar.dev
+      </a>
+      <a href="https://github.com/vimo33" target="_blank" rel="noopener">
+        <span class="ic"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor"/><path d="M5 11.5c0-1.5 0-2 2-2s2 .5 2 2M7 7.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" stroke="currentColor" fill="none"/></svg></span>
+        github.com/vimo33
+      </a>
+      <a href="../index.html#contact">
+        <span class="ic"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h7M5 2l4 4-4 4" stroke="currentColor" fill="none"/></svg></span>
+        Schedule a call
+      </a>
+    </footer>
+  </div>
+</section>
+
+<script src="../script.js"></script>
+</body>
+</html>
