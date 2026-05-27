@@ -34,7 +34,10 @@ html,body{
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* clip (not hidden) so horizontal overflow is contained WITHOUT creating a
+     scroll container — `hidden` here silently breaks `position: sticky`
+     (the Method spiral pin). */
+  overflow-x: clip;
 }
 
 img,svg{ display:block; max-width:100%; }
@@ -525,9 +528,9 @@ section{ position: relative; z-index:3; }
   width: 100%;
   display: block;
   /* Tall scroll track: each of the 7 steps gets a comfortable, reading-paced
-     chunk of scroll distance. The .vis inside is pinned. */
-  height: calc(7 * 42vh);
-  min-height: 1280px;
+     chunk of scroll distance (~38vh/step). The .vis inside is pinned. */
+  height: calc(7 * 38vh);
+  min-height: 1180px;
 }
 .method-diagram .vis{
   position: sticky;
@@ -551,11 +554,11 @@ section{ position: relative; z-index:3; }
   padding-left: 0;
   cursor: default;
   transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1), filter .55s ease;
-  opacity: 0.32;
+  opacity: 0.5;
   transform: translateX(6px);
 }
 .m-step.near{
-  opacity: 0.6;
+  opacity: 0.8;
   transform: translateX(2px);
 }
 .m-step.active{
