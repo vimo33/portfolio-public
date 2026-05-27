@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project — Vikas Mohan</title>
+<meta name="description" content="Project detail — Vikas Mohan." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500&family=Schibsted+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <a href="index.html" class="brand" aria-label="Vikas Mohan — home"><span class="vk">VK</span></a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="index.html#method">Method</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#timeline">Timeline</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <span>Menu</span>
+      <span class="bars" aria-hidden="true"><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<main id="caseRoot"></main>
+
+<!-- Footer -->
+<section class="contact" style="padding-bottom: 60px;">
+  <div class="wrap">
+    <footer class="site-foot">
+      <span class="label">Let's connect</span>
+      <a href="mailto:hello@vikaskumar.dev">
+        <span class="ic"><svg width="14" height="10" viewBox="0 0 14 10" fill="none"><rect x="0.5" y="0.5" width="13" height="9" stroke="currentColor"/><path d="M1 1l6 5 6-5" stroke="currentColor" fill="none"/></svg></span>
+        hello@vikaskumar.dev
+      </a>
+      <a href="https://github.com/vimo33" target="_blank" rel="noopener">
+        <span class="ic"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor"/><path d="M5 11.5c0-1.5 0-2 2-2s2 .5 2 2M7 7.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" stroke="currentColor" fill="none"/></svg></span>
+        github.com/vimo33
+      </a>
+      <a href="index.html#contact">
+        <span class="ic"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h7M5 2l4 4-4 4" stroke="currentColor" fill="none"/></svg></span>
+        Schedule a call
+      </a>
+    </footer>
+  </div>
+</section>
+
+<!-- Data first, then render (before script.js so the reveal observer picks up the nodes) -->
+<script src="data.js"></script>
+<script>
+(function renderProject(){
+  const root = document.getElementById('caseRoot');
+  const id = new URLSearchParams(location.search).get('id');
+  const d = (window.PROJECT_DETAILS || {})[id];
+  const p = (window.PROJECTS || []).find(x => x.id === id);
+
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  if (!d || !p){
+    root.innerHTML = `<section class="case-hero"><div class="wrap"><div class="case-copy">
+      <a href="index.html#work" class="case-back">
+        <svg width="32" height="10" viewBox="0 0 32 10" fill="none" aria-hidden="true"><path d="M32 5H4M10 1L4 5l6 4" stroke="currentColor"/></svg>
+        All projects</a>
+      <h1 class="case-title">Project not found</h1>
+      <p class="case-desc">That project doesn't exist yet. Head back to the work index.</p>
+    </div></div></section>`;
+    return;
+  }
+
+  document.title = `${p.title} — Vikas Mohan`;
+
+  const arrow = '<svg viewBox="0 0 40 12" fill="none" aria-hidden="true"><path d="M0 6h36M30 1l6 5-6 5" stroke="currentColor" stroke-width="1"/></svg>';
+  const extlink = '<svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 12L12 2M5 2h7v7" stroke="currentColor"/></svg>';
+
+  const actions = [];
+  if (d.live) actions.push(`<a class="btn primary" href="${esc(d.live)}" target="_blank" rel="noopener">Visit live ${extlink}</a>`);
+  if (d.repo) actions.push(`<a class="link-arrow" href="${esc(d.repo)}" target="_blank" rel="noopener">View repo ${arrow}</a>`);
+
+  const visual = d.shot
+    ? `<div class="case-shot reveal" data-delay="2"><img src="${esc(d.shot)}" alt="${esc(p.title)} — screenshot" loading="lazy" /></div>`
+    : `<div class="case-shot case-shot--ph reveal" data-delay="2"><span class="ph-orb" aria-hidden="true"></span><span class="ph-note">${esc(d.status || 'Preview on request')}</span></div>`;
+
+  const points = (d.points && d.points.length)
+    ? `<div class="wrap"><ul class="case-points reveal">${d.points.map(pt => `<li>${esc(pt)}</li>`).join('')}</ul></div>` : '';
+
+  const stack = (d.stack && d.stack.length)
+    ? `<div class="wrap"><div class="case-stack reveal">${d.stack.map(s => `<span>${esc(s)}</span>`).join('')}</div></div>` : '';
+
+  root.innerHTML = `
+    <section class="case-hero">
+      <div class="wrap">
+        <div class="case-copy">
+          <a href="index.html#work" class="case-back">
+            <svg width="32" height="10" viewBox="0 0 32 10" fill="none" aria-hidden="true"><path d="M32 5H4M10 1L4 5l6 4" stroke="currentColor"/></svg>
+            All projects
+          </a>
+          <span class="case-num reveal">${esc(d.num || p.n)}</span>
+          <h1 class="case-title reveal" data-delay="1">${esc(p.title)}</h1>
+          <div class="case-sub reveal" data-delay="2">${esc(p.sub)}</div>
+          <p class="case-desc reveal" data-delay="3">${esc(d.overview)}</p>
+          ${actions.length ? `<div class="case-actions reveal" data-delay="4">${actions.join('')}</div>` : ''}
+          <div class="case-meta reveal" data-delay="5">
+            <div><div class="lbl">Role</div><div class="val">${esc(d.role)}</div></div>
+            <div><div class="lbl">Year</div><div class="val">${esc(d.year)}</div></div>
+            <div><div class="lbl">Status</div><div class="val">${esc(d.status)}</div></div>
+            <div><div class="lbl">Team</div><div class="val">${esc(d.team)}</div></div>
+          </div>
+        </div>
+        ${visual}
+      </div>
+    </section>
+    ${points}
+    ${stack}
+  `;
+})();
+</script>
+<script src="script.js"></script>
+</body>
+</html>
