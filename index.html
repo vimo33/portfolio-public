@@ -327,13 +327,15 @@
       </svg>
       <svg class="silh" viewBox="0 0 300 360" preserveAspectRatio="xMidYMax meet">
         <defs>
-          <radialGradient id="silhG" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#0a0b0d" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#000" stop-opacity="1"/>
+          <radialGradient id="silhG" cx="46%" cy="34%" r="70%">
+            <stop offset="0%" stop-color="#1b1c22" stop-opacity="1"/>
+            <stop offset="70%" stop-color="#101116" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#0a0b0d" stop-opacity="1"/>
           </radialGradient>
         </defs>
-        <!-- Stylised profile silhouette -->
-        <path fill="url(#silhG)" d="
+        <!-- Stylised profile silhouette: rim-lit so it reads as a glowing
+             profile emerging from the dark. -->
+        <path class="silh-path" fill="url(#silhG)" d="
           M 60 360
           L 60 235
           C 60 200, 72 178, 90 162
@@ -507,5 +509,19 @@
 
 <script src="data.js"></script>
 <script src="script.js"></script>
+
+<!-- Seed of Light — WebGL narrative layer (Hero → Method handoff).
+     Loaded as an isolated ES module AFTER the classic scripts above so it can
+     read window.METHOD_GEOMETRY and the built DOM. Degrades gracefully:
+     no-ops under reduced motion, on coarse-pointer / narrow viewports, or if
+     three / WebGL is unavailable. -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="seed.js"></script>
 </body>
 </html>

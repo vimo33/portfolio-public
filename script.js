@@ -380,6 +380,11 @@ function buildMethod(){
     };
   }
 
+  // Single source of truth for the helix curve. The WebGL "Seed of Light"
+  // layer (seed.js) reads this to sample the *identical* spiral so its
+  // particle helix-form lands exactly on this SVG. viewBox is 0 0 400 760.
+  window.METHOD_GEOMETRY = { cx, rx, B, topY, totalY, N, viewBox: { w: 400, h: 760 }, pt };
+
   function arcPath(t0, t1, steps=42){
     let d = '';
     for (let s = 0; s <= steps; s++){
@@ -570,197 +575,180 @@ function buildProjects(){
 }
 
 function projectArt(kind){
+  // Shared visual language: warm-gold line-art floating on the container's
+  // central spotlight (see .thumb-art in styles.css). No opaque fill rect — the
+  // gradient + inner vignette read through for depth. Two signature pieces keep
+  // their own hue: 'helios' (solar orange) and 'sage' (AI green).
+  const art = (inner, style='') =>
+    `<div class="thumb-art"${style ? ` style="${style}"` : ''}><svg class="ta-svg" viewBox="0 0 200 110" fill="none">${inner}</svg></div>`;
+
+  // palette helpers
+  const STR  = 'rgba(227,201,130,0.55)';   // primary stroke
+  const STR2 = 'rgba(227,201,130,0.30)';   // secondary stroke
+  const HI   = 'rgba(255,238,195,0.92)';   // bright stroke
+  const DOT  = '#FCEFC9';                   // focal point
+
   switch(kind){
     case 'portal':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <defs>
-          <radialGradient id="pa1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#000"/>
-            <stop offset="62%" stop-color="#000"/>
-            <stop offset="70%" stop-color="#E3C982" stop-opacity="0.9"/>
-            <stop offset="85%" stop-color="#7a5d2a" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="transparent"/>
-          </radialGradient>
-        </defs>
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <circle cx="100" cy="62" r="22" fill="url(#pa1)"/>
-        <path d="M52 100 L100 64 L148 100 Z" stroke="rgba(255,235,200,0.15)" fill="none" stroke-width="0.5"/>
-      </svg></div>`;
+      return art(`
+        <defs><radialGradient id="pa1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#050505"/><stop offset="58%" stop-color="#070707"/>
+          <stop offset="68%" stop-color="#F0DBA2"/><stop offset="82%" stop-color="#C69A4A" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient></defs>
+        <circle cx="100" cy="55" r="32" fill="none" stroke="${STR2}" stroke-width="0.5"/>
+        <circle cx="100" cy="55" r="23" fill="url(#pa1)"/>
+        <path d="M58 96 L100 60 L142 96" stroke="rgba(255,235,200,0.16)" stroke-width="0.6"/>`);
     case 'brain':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(227,201,130,0.5)" fill="none" stroke-width="0.6">
-          <circle cx="100" cy="55" r="30"/><circle cx="100" cy="55" r="20"/><circle cx="100" cy="55" r="12"/>
-          <line x1="20" y1="55" x2="80" y2="55"/><line x1="180" y1="55" x2="120" y2="55"/>
-          <line x1="100" y1="10" x2="100" y2="30"/><line x1="100" y1="100" x2="100" y2="80"/>
+      return art(`
+        <g stroke="${STR}" stroke-width="0.9">
+          <circle cx="100" cy="55" r="30"/><circle cx="100" cy="55" r="20" stroke="${STR2}"/><circle cx="100" cy="55" r="11" stroke="${STR2}"/>
         </g>
-        <circle cx="100" cy="55" r="2.5" fill="#FCEFC9"/>
-      </svg></div>`;
+        <g stroke="${STR2}" stroke-width="0.8">
+          <line x1="24" y1="55" x2="80" y2="55"/><line x1="176" y1="55" x2="120" y2="55"/>
+          <line x1="100" y1="13" x2="100" y2="30"/><line x1="100" y1="97" x2="100" y2="80"/>
+        </g>
+        <circle cx="100" cy="55" r="3" fill="${DOT}"/>`);
     case 'globe':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(120,180,220,0.4)" fill="none" stroke-width="0.6">
-          <circle cx="100" cy="55" r="34"/>
-          <ellipse cx="100" cy="55" rx="34" ry="14"/>
-          <ellipse cx="100" cy="55" rx="20" ry="34"/>
-          <ellipse cx="100" cy="55" rx="10" ry="34"/>
-          <path d="M66 55h68M100 21v68"/>
+      return art(`
+        <g stroke="${STR}" stroke-width="0.9">
+          <circle cx="100" cy="55" r="33"/>
         </g>
-      </svg></div>`;
+        <g stroke="${STR2}" stroke-width="0.8">
+          <ellipse cx="100" cy="55" rx="33" ry="14"/>
+          <ellipse cx="100" cy="55" rx="19" ry="33"/>
+          <ellipse cx="100" cy="55" rx="9" ry="33"/>
+          <path d="M67 55h66M100 22v66"/>
+        </g>
+        <circle cx="100" cy="55" r="2" fill="${DOT}"/>`);
     case 'network':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(227,201,130,0.4)" fill="none">
-          <path d="M20 90 Q60 30, 100 55 T180 30"/>
-          <path d="M20 30 Q60 80, 100 55 T180 80"/>
+      return art(`
+        <g stroke="${STR2}" stroke-width="0.9">
+          <path d="M22 88 Q60 32, 100 55 T178 32"/>
+          <path d="M22 32 Q60 78, 100 55 T178 78"/>
         </g>
-        <g fill="#FCEFC9">
-          <circle cx="20" cy="90" r="2"/><circle cx="180" cy="30" r="2"/>
-          <circle cx="20" cy="30" r="2"/><circle cx="180" cy="80" r="2"/>
-          <circle cx="100" cy="55" r="2.5"/>
-        </g>
-      </svg></div>`;
+        <g fill="${DOT}">
+          <circle cx="22" cy="88" r="2"/><circle cx="178" cy="32" r="2"/>
+          <circle cx="22" cy="32" r="2"/><circle cx="178" cy="78" r="2"/>
+          <circle cx="100" cy="55" r="3"/>
+        </g>`);
     case 'helios':
-      return `<div class="thumb-art" style="background:radial-gradient(60% 70% at 50% 60%, rgba(216,100,60,0.25), transparent 60%), linear-gradient(180deg,#15100c, #08090b);"><svg viewBox="0 0 200 110" fill="none">
-        <defs>
-          <radialGradient id="he1" cx="50%" cy="55%" r="45%">
-            <stop offset="0%" stop-color="#000"/>
-            <stop offset="65%" stop-color="#000"/>
-            <stop offset="72%" stop-color="#E89060" stop-opacity="0.95"/>
-            <stop offset="100%" stop-color="transparent"/>
-          </radialGradient>
-        </defs>
-        <circle cx="100" cy="58" r="26" fill="url(#he1)"/>
-        <text x="100" y="62" text-anchor="middle" fill="rgba(255,220,180,0.7)" font-family="Bricolage Grotesque" font-size="11">Helios</text>
-      </svg></div>`;
+      return art(`
+        <defs><radialGradient id="he1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#070504"/><stop offset="60%" stop-color="#0a0706"/>
+          <stop offset="70%" stop-color="#F0A268"/><stop offset="100%" stop-color="transparent"/>
+        </radialGradient></defs>
+        <circle cx="100" cy="55" r="30" fill="none" stroke="rgba(232,144,96,0.28)" stroke-width="0.5"/>
+        <circle cx="100" cy="55" r="24" fill="url(#he1)"/>`,
+        'background:radial-gradient(50% 64% at 50% 50%, rgba(216,100,60,0.22), transparent 66%), radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0.5), transparent 60%), linear-gradient(160deg,#181009,#0c0908 60%,#08090b);');
     case 'inventory':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="0.6">
-          <rect x="20" y="20" width="38" height="70"/>
-          <rect x="68" y="20" width="38" height="70"/>
-          <rect x="116" y="20" width="64" height="70"/>
+      return art(`
+        <g stroke="${STR2}" stroke-width="0.8">
+          <rect x="22" y="22" width="38" height="66" rx="2"/>
+          <rect x="70" y="22" width="38" height="66" rx="2"/>
+          <rect x="118" y="22" width="60" height="66" rx="2"/>
         </g>
-        <g fill="rgba(227,201,130,0.4)">
-          <rect x="124" y="32" width="48" height="8"/>
-          <rect x="124" y="48" width="32" height="6"/>
-          <rect x="124" y="62" width="40" height="6"/>
-          <rect x="76" y="36" width="22" height="22"/>
+        <g fill="rgba(227,201,130,0.42)">
+          <rect x="126" y="34" width="44" height="7" rx="1.5"/>
+          <rect x="126" y="48" width="30" height="6" rx="1.5"/>
+          <rect x="126" y="61" width="38" height="6" rx="1.5"/>
         </g>
-      </svg></div>`;
+        <rect x="78" y="38" width="22" height="22" rx="2" fill="none" stroke="${HI}" stroke-width="0.9"/>
+        <circle cx="89" cy="49" r="2" fill="${DOT}"/>`);
     case 'led':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
+      return art(`
         <g stroke-linecap="round">
-          <line x1="40"  y1="22" x2="40"  y2="88" stroke="rgba(227,201,130,0.85)" stroke-width="3"/>
-          <line x1="64"  y1="22" x2="64"  y2="88" stroke="rgba(227,201,130,0.32)" stroke-width="3"/>
-          <line x1="88"  y1="22" x2="88"  y2="88" stroke="rgba(255,238,195,1)"    stroke-width="3"/>
-          <line x1="112" y1="22" x2="112" y2="88" stroke="rgba(227,201,130,0.5)"  stroke-width="3"/>
-          <line x1="136" y1="22" x2="136" y2="88" stroke="rgba(227,201,130,0.24)" stroke-width="3"/>
-          <line x1="160" y1="22" x2="160" y2="88" stroke="rgba(227,201,130,0.7)"  stroke-width="3"/>
+          <line x1="40"  y1="24" x2="40"  y2="86" stroke="rgba(227,201,130,0.85)" stroke-width="3"/>
+          <line x1="64"  y1="24" x2="64"  y2="86" stroke="rgba(227,201,130,0.30)" stroke-width="3"/>
+          <line x1="88"  y1="24" x2="88"  y2="86" stroke="${HI}"                  stroke-width="3"/>
+          <line x1="112" y1="24" x2="112" y2="86" stroke="rgba(227,201,130,0.52)" stroke-width="3"/>
+          <line x1="136" y1="24" x2="136" y2="86" stroke="rgba(227,201,130,0.24)" stroke-width="3"/>
+          <line x1="160" y1="24" x2="160" y2="86" stroke="rgba(227,201,130,0.70)" stroke-width="3"/>
         </g>
-        <g fill="#FCEFC9"><circle cx="88" cy="40" r="2"/><circle cx="160" cy="64" r="1.6"/><circle cx="40" cy="72" r="1.6"/></g>
-      </svg></div>`;
+        <g fill="${DOT}"><circle cx="88" cy="42" r="2.2"/><circle cx="160" cy="64" r="1.6"/><circle cx="40" cy="72" r="1.6"/></g>`);
     case 'mesh':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(227,201,130,0.4)" stroke-width="0.6">
+      return art(`
+        <g stroke="${STR2}" stroke-width="0.8">
           <line x1="100" y1="55" x2="60" y2="34"/><line x1="100" y1="55" x2="62" y2="78"/>
           <line x1="100" y1="55" x2="142" y2="38"/><line x1="100" y1="55" x2="146" y2="74"/>
           <line x1="100" y1="55" x2="100" y2="22"/><line x1="60" y1="34" x2="62" y2="78"/>
         </g>
-        <g fill="#FCEFC9">
-          <circle cx="100" cy="55" r="3"/>
+        <g fill="${DOT}">
+          <circle cx="100" cy="55" r="3.2"/>
           <circle cx="60" cy="34" r="2"/><circle cx="62" cy="78" r="2"/>
           <circle cx="142" cy="38" r="2"/><circle cx="146" cy="74" r="2"/><circle cx="100" cy="22" r="1.6"/>
-        </g>
-      </svg></div>`;
+        </g>`);
     case 'vine':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <path d="M40 92 C 70 80, 70 50, 100 44 C 130 38, 132 24, 162 18" stroke="rgba(227,201,130,0.55)" stroke-width="1" fill="none"/>
-        <g stroke="rgba(120,200,150,0.4)" stroke-width="0.8" fill="none">
-          <path d="M70 66 q -12 -6 -18 -1"/><path d="M100 44 q 12 -7 18 -2"/>
+      return art(`
+        <path d="M40 90 C 70 78, 70 48, 100 42 C 130 36, 132 22, 162 16" stroke="${STR}" stroke-width="1.1" fill="none"/>
+        <g stroke="${STR2}" stroke-width="0.9" fill="none">
+          <path d="M70 64 q -12 -6 -18 -1"/><path d="M100 42 q 12 -7 18 -2"/>
         </g>
-        <g fill="rgba(227,201,130,0.55)">
-          <circle cx="70" cy="66" r="3"/><circle cx="100" cy="44" r="3.6"/><circle cx="130" cy="34" r="3"/>
+        <g fill="rgba(227,201,130,0.6)">
+          <circle cx="70" cy="64" r="3"/><circle cx="100" cy="42" r="3.6"/><circle cx="130" cy="32" r="3"/>
         </g>
-        <path d="M150 84 l9 -13 9 13" stroke="rgba(255,238,195,0.85)" stroke-width="1" fill="none"/>
-      </svg></div>`;
+        <circle cx="162" cy="16" r="2.4" fill="${DOT}"/>`);
     case 'share':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(227,201,130,0.6)" stroke-width="1" fill="none">
+      return art(`
+        <g stroke="${STR}" stroke-width="1.1" fill="none">
           <path d="M76 44 A 28 28 0 0 1 128 40"/>
           <path d="M124 66 A 28 28 0 0 1 72 70"/>
         </g>
-        <g fill="rgba(255,238,195,0.9)">
+        <g fill="${HI}">
           <path d="M128 40 l 5 -8 -10 0 z"/>
           <path d="M72 70 l -5 8 10 0 z"/>
         </g>
-        <g fill="#FCEFC9"><circle cx="70" cy="55" r="3"/><circle cx="130" cy="55" r="3"/></g>
-      </svg></div>`;
+        <g fill="${DOT}"><circle cx="70" cy="55" r="3"/><circle cx="130" cy="55" r="3"/></g>`);
     case 'ftros':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <rect x="52" y="26" width="96" height="58" rx="6" stroke="rgba(227,201,130,0.4)" stroke-width="0.8" fill="none"/>
-        <line x1="52" y1="39" x2="148" y2="39" stroke="rgba(227,201,130,0.3)" stroke-width="0.6"/>
-        <g fill="rgba(255,238,195,0.8)"><circle cx="60" cy="33" r="1.4"/><circle cx="66" cy="33" r="1.4"/><circle cx="72" cy="33" r="1.4"/></g>
-        <g stroke="rgba(227,201,130,0.5)" stroke-width="0.6" fill="none"><circle cx="100" cy="60" r="14"/><circle cx="100" cy="60" r="7"/></g>
-        <circle cx="100" cy="60" r="2" fill="#FCEFC9"/>
-      </svg></div>`;
+      return art(`
+        <rect x="50" y="24" width="100" height="60" rx="7" stroke="${STR2}" stroke-width="0.9" fill="none"/>
+        <line x1="50" y1="38" x2="150" y2="38" stroke="${STR2}" stroke-width="0.7"/>
+        <g fill="rgba(255,238,195,0.8)"><circle cx="58" cy="31" r="1.4"/><circle cx="64" cy="31" r="1.4"/><circle cx="70" cy="31" r="1.4"/></g>
+        <g stroke="${STR}" stroke-width="0.9" fill="none"><circle cx="100" cy="61" r="15"/><circle cx="100" cy="61" r="7" stroke="${STR2}"/></g>
+        <circle cx="100" cy="61" r="2.4" fill="${DOT}"/>`);
     case 'teach':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <path d="M100 30 L152 50 L100 70 L48 50 Z" stroke="rgba(227,201,130,0.6)" stroke-width="1" fill="none"/>
-        <path d="M70 59 L70 76 C 70 84, 130 84, 130 76 L130 59" stroke="rgba(227,201,130,0.32)" stroke-width="0.8" fill="none"/>
-        <line x1="152" y1="50" x2="152" y2="76" stroke="rgba(227,201,130,0.5)" stroke-width="0.8"/>
-        <circle cx="152" cy="78" r="2" fill="#FCEFC9"/>
-      </svg></div>`;
+      return art(`
+        <path d="M100 28 L154 50 L100 72 L46 50 Z" stroke="${STR}" stroke-width="1.1" fill="none"/>
+        <path d="M70 60 L70 77 C 70 85, 130 85, 130 77 L130 60" stroke="${STR2}" stroke-width="0.9" fill="none"/>
+        <line x1="154" y1="50" x2="154" y2="76" stroke="${STR2}" stroke-width="0.9"/>
+        <circle cx="154" cy="78" r="2.4" fill="${DOT}"/>`);
     case 'risk':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g stroke="rgba(120,180,220,0.4)" stroke-width="0.6" fill="none">
-          <circle cx="100" cy="55" r="32"/>
+      return art(`
+        <g stroke="${STR2}" stroke-width="0.8" fill="none">
+          <circle cx="100" cy="55" r="32" stroke="${STR}" stroke-width="0.9"/>
           <ellipse cx="100" cy="55" rx="32" ry="13"/>
           <path d="M68 55h64M100 23v64"/>
         </g>
-        <path d="M100 55 L100 23 A 32 32 0 0 1 128 40 Z" fill="rgba(227,201,130,0.16)" stroke="rgba(227,201,130,0.5)" stroke-width="0.6"/>
-        <circle cx="128" cy="40" r="2.4" fill="#FFE6A0"/>
-      </svg></div>`;
+        <path d="M100 55 L100 23 A 32 32 0 0 1 128 40 Z" fill="rgba(227,201,130,0.18)" stroke="${STR}" stroke-width="0.7"/>
+        <circle cx="128" cy="40" r="2.6" fill="${DOT}"/>`);
     case 'stack':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <rect x="64" y="30" width="72" height="14" rx="3" stroke="rgba(227,201,130,0.3)"  stroke-width="0.8" fill="none"/>
-        <rect x="58" y="48" width="84" height="14" rx="3" stroke="rgba(227,201,130,0.55)" stroke-width="0.8" fill="none"/>
-        <rect x="64" y="66" width="72" height="14" rx="3" stroke="rgba(255,238,195,0.9)"  stroke-width="0.9" fill="none"/>
-        <circle cx="100" cy="55" r="1.8" fill="#FCEFC9"/>
-      </svg></div>`;
+      return art(`
+        <rect x="64" y="28" width="72" height="15" rx="3.5" stroke="${STR2}" stroke-width="0.9" fill="none"/>
+        <rect x="56" y="47" width="88" height="15" rx="3.5" stroke="${STR}"  stroke-width="0.9" fill="none"/>
+        <rect x="64" y="66" width="72" height="15" rx="3.5" stroke="${HI}"   stroke-width="1" fill="none"/>
+        <circle cx="100" cy="54.5" r="1.8" fill="${DOT}"/>`);
     case 'live':
-      return `<div class="thumb-art"><svg viewBox="0 0 200 110" fill="none">
-        <rect width="200" height="110" fill="#0a0b0d"/>
-        <g fill="none" stroke="rgba(227,201,130,0.6)">
-          <circle cx="100" cy="55" r="12" stroke-opacity="0.75"/>
-          <circle cx="100" cy="55" r="22" stroke-opacity="0.4"/>
-          <circle cx="100" cy="55" r="32" stroke-opacity="0.2"/>
+      return art(`
+        <g fill="none" stroke="${STR}">
+          <circle cx="100" cy="55" r="12" stroke-opacity="0.8"/>
+          <circle cx="100" cy="55" r="22" stroke-opacity="0.42"/>
+          <circle cx="100" cy="55" r="32" stroke-opacity="0.20"/>
         </g>
-        <circle cx="100" cy="55" r="4.5" fill="#FFE6A0"/>
-      </svg></div>`;
+        <circle cx="100" cy="55" r="4.5" fill="${DOT}"/>`);
     case 'sage':
-      return `<div class="thumb-art" style="background:radial-gradient(60% 70% at 50% 52%, rgba(120,170,140,0.18), transparent 62%), linear-gradient(180deg,#0c100d,#08090b);"><svg viewBox="0 0 200 110" fill="none">
-        <defs>
-          <radialGradient id="sg1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#F2F7E9"/>
-            <stop offset="55%" stop-color="#CFE3B8" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="transparent"/>
-          </radialGradient>
-        </defs>
-        <circle cx="100" cy="55" r="16" fill="url(#sg1)"/>
-        <ellipse cx="100" cy="55" rx="34" ry="14" stroke="rgba(207,227,184,0.4)" stroke-width="0.6" fill="none"/>
-        <circle cx="134" cy="55" r="2" fill="#E8F2D8"/>
-      </svg></div>`;
+      return art(`
+        <defs><radialGradient id="sg1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#F2F7E9"/>
+          <stop offset="55%" stop-color="#CFE3B8" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient></defs>
+        <ellipse cx="100" cy="55" rx="34" ry="14" stroke="rgba(207,227,184,0.42)" stroke-width="0.7" fill="none"/>
+        <ellipse cx="100" cy="55" rx="22" ry="32" stroke="rgba(207,227,184,0.22)" stroke-width="0.7" fill="none"/>
+        <circle cx="100" cy="55" r="15" fill="url(#sg1)"/>
+        <circle cx="134" cy="55" r="2" fill="#E8F2D8"/>`,
+        'background:radial-gradient(50% 64% at 50% 50%, rgba(120,170,140,0.16), transparent 64%), radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0.5), transparent 60%), linear-gradient(160deg,#0d130e,#0a0d0b 60%,#08090b);');
     default:
-      return `<div class="thumb-art"></div>`;
+      return art('');
   }
 }
 buildProjects();
@@ -867,6 +855,22 @@ function buildTimeline(){
     g.appendChild(desc);
     points.appendChild(g);
   });
+
+  // Mobile-friendly vertical list (the arc's SVG-positioned text is unreadable
+  // on narrow screens). CSS toggles between the arc and this list per breakpoint.
+  const canvas = svg.parentElement;
+  if (canvas && !canvas.querySelector('.timeline-list')){
+    const ul = document.createElement('ul');
+    ul.className = 'timeline-list';
+    ul.setAttribute('aria-hidden', 'false');
+    ul.innerHTML = items.map(it => `
+      <li class="tl-item">
+        <span class="tl-li-month">${it.month}</span>
+        <h3 class="tl-li-title">${it.title}</h3>
+        <p class="tl-li-desc">${it.desc}</p>
+      </li>`).join('');
+    canvas.appendChild(ul);
+  }
 
   // Reveal: arc draws first, then rows fade + slide in oldest→newest.
   const section = document.getElementById('timeline');
