@@ -1406,6 +1406,9 @@ section{ position: relative; z-index:3; }
   .timeline .wrap{ grid-template-columns: 1fr; gap: 24px; }
   .about .wrap{ grid-template-columns: 1fr; gap: 48px; }
   .contact .wrap{ grid-template-columns: 1fr; gap: 48px; }
+  /* When the layout stacks, the absolutely-positioned sun glow would bleed
+     over the collab cards below — hide it. */
+  .contact-left .glow-orb{ display: none; }
   .project-row{ grid-template-columns: 40px 1fr 240px 32px; gap: 20px; }
   .hero-copy h1{ font-size: clamp(40px, 6.5vw, 60px); }
 }
@@ -1448,7 +1451,9 @@ section{ position: relative; z-index:3; }
   .cta-row{ gap: 18px; flex-direction: column; align-items: flex-start; }
   .btn{ padding: 14px 20px; }
   .method-diagram{ min-height: 520px; }
-  .method-diagram .vis{ height: 520px; }
+  /* Kill the 440px min-width: it overflows sub-470px viewports and pushes
+     the step labels off-screen. */
+  .method-diagram .vis{ height: 520px; width: 100%; }
   .method-diagram .labels{ left: 52%; width: 48%; }
   .m-step .ttl{ font-size: 11px; letter-spacing: 0.16em; }
   .m-step .num{ font-size: 10.5px; width: 22px; }
