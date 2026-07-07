@@ -364,9 +364,9 @@ function buildMethod(){
   const steps = window.METHOD_STEPS;
   const N = steps.length; // 7 turns
   // Geometry inside viewBox 0 0 400 760
-  const cx = 198;
-  const rx = 108;
-  const B = 38;             // bobbing amplitude
+  const cx = 140;
+  const rx = 90;
+  const B = 34;             // bobbing amplitude
   const topY = 50;
   const totalY = 640;       // vertical descent over N turns
 
@@ -401,11 +401,18 @@ function buildMethod(){
   //   - front half: t in [i+0.5, i+1] (bottom arc, in front)
   // We draw all backs first, then all fronts (so fronts paint over backs of below loops).
   const arcs = []; // {el, kind, idx}
+  function dashSetup(el){
+    // pathLength=1 normalizes the dash so stroke-dashoffset 1→0 scrubs the draw.
+    el.setAttribute('pathLength', '1');
+    el.style.strokeDasharray = '1';
+    el.style.strokeDashoffset = '1';
+  }
   for (let i = 0; i < N; i++){
     const back = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     back.setAttribute('class', 'spiral-arc back');
     back.setAttribute('d', arcPath(i, i + 0.5));
     back.dataset.idx = i;
+    dashSetup(back);
     backG.appendChild(back);
     arcs.push({ el: back, kind: 'back', idx: i });
   }
@@ -414,13 +421,14 @@ function buildMethod(){
     front.setAttribute('class', 'spiral-arc front');
     front.setAttribute('d', arcPath(i + 0.5, i + 1));
     front.dataset.idx = i;
+    dashSetup(front);
     frontG.appendChild(front);
     arcs.push({ el: front, kind: 'front', idx: i });
   }
 
   // Anchor + connector + label per step
   // Anchor is at the bottom-front of each loop (most visible point), t = i + 0.75
-  const labelRailX = 360;     // x position where connector ends (just inside labels column edge)
+  const labelRailX = 232;     // x position where connector ends (just short of the labels column)
   const anchorPts = [];
   const anchorEls = [];
   const connEls = [];
@@ -521,6 +529,25 @@ function buildMethod(){
     // Even buckets across N steps; 0.9999 keeps the last step reachable at the bottom.
     const idx = Math.max(0, Math.min(N - 1, Math.floor(progress * N * 0.9999)));
     setActive(idx);
+
+    // Scroll-scrubbed draw: the spiral inks itself loop by loop as the visitor
+    // scrolls (reversible). Each loop i draws over progress bucket [i, i+1]/N —
+    // back half first, then front. Reduced motion shows it fully drawn.
+    // A small head-start (+0.35) keeps the ink ahead of the active step.
+    const s = prefersReduced ? N : Math.min(N, progress * N + 0.35);
+    arcs.forEach(a => {
+      const f = a.kind === 'back'
+        ? Math.max(0, Math.min(1, (s - a.idx) * 2))
+        : Math.max(0, Math.min(1, (s - a.idx) * 2 - 1));
+      a.el.style.strokeDashoffset = String(1 - f);
+    });
+    // Anchors, connectors, and labels surface once their loop is inked.
+    for (let i = 0; i < N; i++){
+      const on = s >= i + 0.78;
+      anchorEls[i].classList.toggle('undrawn', !on);
+      connEls[i].classList.toggle('undrawn', !on);
+      stepEls[i].classList.toggle('undrawn', !on);
+    }
   }
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
@@ -872,33 +899,36 @@ function buildTimeline(){
     canvas.appendChild(ul);
   }
 
-  // Reveal: arc draws first, then rows fade + slide in oldest→newest.
+  // Scroll-scrubbed reveal: the arc draws with scroll position (reversible),
+  // and each milestone surfaces as the ink reaches its dot on the arc.
   const section = document.getElementById('timeline');
-  let drawn = false;
-  function maybeDraw(){
-    if (drawn) return;
-    const r = section.getBoundingClientRect();
-    if (r.top < window.innerHeight * 0.8){
-      drawn = true;
-      arcVis.style.transition = prefersReduced ? 'none' : 'stroke-dashoffset 2.2s cubic-bezier(.5,.1,.2,1)';
-      requestAnimationFrame(() => arcVis.style.strokeDashoffset = '0');
-      const groups = points.querySelectorAll('.tl-point');
-      groups.forEach((g, i) => {
-        g.style.opacity = '0';
-        if (!prefersReduced){
-          g.style.transform = 'translateX(12px)';
-          g.style.transition = 'opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)';
-          g.style.transitionDelay = `${0.5 + i * 0.16}s`;
-        }
-        requestAnimationFrame(() => {
-          g.style.opacity = '1';
-          g.style.transform = 'translateX(0)';
-        });
-      });
+  const groups = Array.from(points.querySelectorAll('.tl-point'));
+  groups.forEach(g => {
+    g.style.opacity = '0';
+    if (!prefersReduced){
+      g.style.transform = 'translateX(12px)';
+      g.style.transition = 'opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1)';
     }
+  });
+  function scrub(){
+    const r = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // 0 when the section top enters at 90% of the viewport; 1 when it reaches
+    // the top — the arc inks in over roughly one viewport of scroll.
+    let p = (vh * 0.9 - r.top) / (vh * 0.9);
+    p = Math.max(0, Math.min(1, p));
+    if (prefersReduced) p = r.top < vh * 0.9 ? 1 : 0;
+    arcVis.style.strokeDashoffset = String(1 - p);
+    groups.forEach((g, i) => {
+      const ti = tMin + (tMax - tMin) * (i / (N - 1));
+      const on = p >= ti;
+      g.style.opacity = on ? '1' : '0';
+      if (!prefersReduced) g.style.transform = on ? 'translateX(0)' : 'translateX(12px)';
+    });
   }
-  window.addEventListener('scroll', maybeDraw, { passive: true });
-  maybeDraw();
+  window.addEventListener('scroll', scrub, { passive: true });
+  window.addEventListener('resize', scrub);
+  scrub();
 }
 buildTimeline();
 

@@ -325,31 +325,9 @@
         <circle cx="92" cy="170" r="1.6" fill="#fcefc9"/>
         <circle cx="388" cy="170" r="1.6" fill="#fcefc9"/>
       </svg>
-      <svg class="silh" viewBox="0 0 300 360" preserveAspectRatio="xMidYMax meet">
-        <defs>
-          <radialGradient id="silhG" cx="46%" cy="34%" r="70%">
-            <stop offset="0%" stop-color="#1b1c22" stop-opacity="1"/>
-            <stop offset="70%" stop-color="#101116" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#0a0b0d" stop-opacity="1"/>
-          </radialGradient>
-        </defs>
-        <!-- Stylised profile silhouette: rim-lit so it reads as a glowing
-             profile emerging from the dark. -->
-        <path class="silh-path" fill="url(#silhG)" d="
-          M 60 360
-          L 60 235
-          C 60 200, 72 178, 90 162
-          C 98 154, 108 148, 116 142
-          C 122 138, 126 130, 126 122
-          C 126 110, 124 100, 124 90
-          C 124 62, 142 38, 174 38
-          C 200 38, 218 56, 220 80
-          C 222 96, 218 110, 216 122
-          C 214 134, 220 144, 232 154
-          C 248 168, 256 184, 258 206
-          C 260 234, 260 280, 260 360
-          Z"/>
-      </svg>
+      <!-- Portrait photo slot. Currently a generated placeholder — swap the
+           src for a real photo (same warm rim-lit treatment applies). -->
+      <img class="portrait-photo" src="assets/portrait-placeholder.jpg" alt="Portrait of Vikas Mohan" loading="lazy" />
     </div>
   </div>
 </section>
@@ -510,7 +488,8 @@
 <script src="data.js"></script>
 <script src="script.js"></script>
 
-<!-- Seed of Light — WebGL narrative layer (Hero → Method handoff).
+<!-- Seed of Light — WebGL narrative layer (full-page station timeline:
+     Hero → Method → Work → Timeline → Films → About → Contact).
      Loaded as an isolated ES module AFTER the classic scripts above so it can
      read window.METHOD_GEOMETRY and the built DOM. Degrades gracefully:
      no-ops under reduced motion, on coarse-pointer / narrow viewports, or if
