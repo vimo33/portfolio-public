@@ -1,0 +1,46 @@
+/* An original perspective ribbon for the portfolio's real project images. */
+.project-cards3d{position:relative;isolation:isolate;height:620px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(ellipse at 50% 52%,#e2e5d9 0,transparent 61%),var(--paper);color:var(--ink);touch-action:pan-y;outline-offset:-5px;--cards-drag-x:0px;--cards-w:min(72%,580px);--cards-h:334px}
+.project-cards3d:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:68px 68px;opacity:.14;mask-image:radial-gradient(ellipse,#000 10%,transparent 72%)}
+.project-cards3d:after{content:'';position:absolute;inset:0;z-index:21;pointer-events:none;background:linear-gradient(var(--paper),transparent 13%,transparent 85%,var(--paper));opacity:.7}
+.project-cards3d-label{position:absolute;inset:22px 25px auto;z-index:22;display:flex;justify-content:space-between;gap:16px;font-size:9px;color:var(--muted);pointer-events:none}
+.project-cards3d-hint{position:absolute;bottom:22px;left:20px;right:20px;z-index:22;text-align:center;font-size:8px;letter-spacing:.12em;color:var(--muted);pointer-events:none}
+.project-cards3d-bank{position:absolute;inset:0;perspective:1100px;perspective-origin:50% 50%;transform:translate3d(var(--cards-drag-x),0,0);transition:transform .4s ease;transform-style:preserve-3d}
+.project-cards3d-card{display:block;position:absolute;top:50%;left:50%;width:var(--cards-w);height:var(--cards-h);margin:0;padding:0;border:0;border-radius:12px;background:transparent;color:inherit;text-align:left;cursor:pointer;transform:translate(-50%,-50%) translate3d(0,var(--card-y),var(--card-z)) rotateX(var(--card-tilt)) rotateZ(var(--card-roll));transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .55s ease;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.project-cards3d-surface{height:100%;display:grid;grid-template-rows:35px minmax(0,1fr) 76px;border:1px solid #8c98ab66;border-radius:12px;background:#f3f3e9;color:#20241f;box-shadow:0 22px 55px #14231c30,0 2px 0 #ffffff88 inset;overflow:hidden;transform-style:preserve-3d;backface-visibility:hidden}
+.project-cards3d-meta{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 18px;font-size:8px;letter-spacing:.09em;border-bottom:1px solid #20241f20}
+.project-cards3d-meta>span:last-child{font-size:18px;line-height:1}
+.project-cards3d-media{position:relative;display:block;min-height:0;overflow:hidden;margin:0 12px;background:#131a21}
+.project-cards3d-media img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;user-select:none;-webkit-user-drag:none}
+.project-cards3d-monogram{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font:italic clamp(64px,8vw,120px)/1 Georgia,serif;letter-spacing:-.08em;color:var(--cards-accent,#dcf68a);background:radial-gradient(ellipse at 25% 20%,#ffffff12,transparent 60%),repeating-radial-gradient(ellipse at 100% 100%,transparent 0 25px,#ffffff17 26px 27px),#17231e}
+.project-cards3d-media.is-typographic .project-cards3d-monogram{display:flex}
+.project-cards3d-caption{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:10px 18px}
+.project-cards3d-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:500 clamp(22px,2.6vw,35px)/1.1 var(--display);letter-spacing:-.045em}
+.project-cards3d-status{display:block;font-size:10px;line-height:1.35;color:#566154;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.project-cards3d-card.cards-tone-1 .project-cards3d-surface{background:#e6eddd}
+.project-cards3d-card.cards-tone-2 .project-cards3d-surface{background:#dce4f3}
+.project-cards3d-card.cards-tone-3 .project-cards3d-surface{background:#e7dfd2}
+.project-cards3d-card:focus-visible{outline:3px solid var(--blue);outline-offset:6px}
+.project-cards3d-card.is-neighbor:hover{opacity:.95!important}
+.project-cards3d-card.is-current .project-cards3d-surface{animation:project-card-float 8s ease-in-out infinite paused}
+.project-cards3d.is-running .project-cards3d-card.is-current .project-cards3d-surface{animation-play-state:running}
+.project-cards3d.is-dragging .project-cards3d-bank{transition:none}
+.project-cards3d.is-dragging,.project-cards3d.is-dragging .project-cards3d-card{cursor:grabbing}
+.project-cards3d.is-compact{height:440px;--cards-w:calc(100% - 48px);--cards-h:238px}
+.project-cards3d.is-compact .project-cards3d-surface{grid-template-rows:29px minmax(0,1fr) 63px;border-radius:9px}
+.project-cards3d.is-compact .project-cards3d-card{border-radius:9px}
+.project-cards3d.is-compact .project-cards3d-meta{font-size:7px;padding-inline:12px}
+.project-cards3d.is-compact .project-cards3d-media{margin-inline:8px}
+.project-cards3d.is-compact .project-cards3d-caption{padding-inline:12px}
+.project-cards3d.is-compact .project-cards3d-title{font-size:25px}
+.project-cards3d.is-compact .project-cards3d-status{font-size:9px}
+.project-cards3d.is-compact .project-cards3d-label{inset:17px 18px auto;font-size:7px}
+.project-cards3d.is-compact .project-cards3d-hint{font-size:7px;bottom:17px}
+.project-cards3d.is-empty .project-cards3d-hint{display:none}
+html[data-theme=dark] .project-cards3d{background:radial-gradient(ellipse at 50% 52%,#27362d 0,transparent 61%),var(--paper)}
+html[data-theme=dark] .project-cards3d-surface{box-shadow:0 25px 65px #0008,0 1px 0 #ffffff88 inset}
+@keyframes project-card-float{0%,100%{transform:rotateY(-4deg) rotateX(1deg) translateY(0)}50%{transform:rotateY(4deg) rotateX(-1deg) translateY(-5px)}}
+.project-cards3d.is-static .project-cards3d-card,.project-cards3d.is-static .project-cards3d-bank{transition:none}
+.project-cards3d.is-static .project-cards3d-surface{animation:none!important}
+@media(prefers-reduced-motion:reduce){.project-cards3d-card,.project-cards3d-bank{transition:none!important}.project-cards3d-surface{animation:none!important}}
+@supports not (perspective:1px){.project-cards3d-card.is-neighbor{display:none}.project-cards3d-card.is-current{transform:translate(-50%,-50%)}.project-cards3d-surface{animation:none!important}}
+@media(forced-colors:active){.project-cards3d,.project-cards3d-surface{border:1px solid CanvasText}.project-cards3d-surface{background:Canvas;color:CanvasText}.project-cards3d-status{color:CanvasText}.project-cards3d-card{opacity:1!important}.project-cards3d:before,.project-cards3d:after{display:none}}

@@ -523,6 +523,31 @@ window.PORTFOLIO = [
     ]
   },
   {
+    "id": "mps",
+    "title": "MPS",
+    "group": "bakboka",
+    "category": "systems",
+    "summary": "A connected view of climate, food and debt.",
+    "status": "Research prototype · restricted preview",
+    "year": "2026",
+    "role": "Research and product collaboration · Bakboka",
+    "lens": "Follow the connections, then inspect the evidence.",
+    "question": "A country’s climate, food and debt pressures are connected. How can a research interface make those relationships, the supporting evidence and the initiatives responding to them easier to inspect?",
+    "approach": "MPS is part of my collaboration with Bakboka. The Kenya prototype brings country research into connected views of risks, system variables and the organisations working on them. A network map, evidence tables and project views let a reader move from a broad pattern to the sources and assumptions behind it.",
+    "details": [
+      "Explore connections across climate, food and debt systems.",
+      "Move between a network map, risk readings and organisations or projects responding to the underlying drivers.",
+      "A source-checking workflow compares quoted claims with cached source text.",
+      "Keep present conditions distinct from the outlook described in published forecasts."
+    ],
+    "learning": "The useful part of a systems map is being able to follow a relationship back to its evidence. Source checks, interpretation and the uncertainty in an outlook need to remain visible.",
+    "limits": "Research prototype with a Kenya example and an access-controlled preview. The interface and source-checking workflow do not establish predictive accuracy or a completed client rollout.",
+    "artifact": "RESEARCH INTERFACE · KENYA PROTOTYPE",
+    "repo": "",
+    "live": "",
+    "images": []
+  },
+  {
     "id": "tourism-risk-monitor",
     "title": "Tourism Risk Monitor",
     "category": "systems",
@@ -543,7 +568,7 @@ window.PORTFOLIO = [
     "artifact": "PUBLIC REPOSITORY + BROWSER PROTOTYPE",
     "repo": "https://github.com/vimo33/Tourism-Risk-Monitor",
     "live": "https://vimo33.github.io/Tourism-Risk-Monitor/",
-    "group": "independent",
+    "group": "bakboka",
     "images": []
   },
   {
@@ -567,7 +592,7 @@ window.PORTFOLIO = [
     "artifact": "PUBLIC SOURCE · RESEARCH INTERFACE",
     "repo": "https://github.com/vimo33/multiplium-research-lab",
     "live": "https://vimo33.github.io/multiplium-research-lab/overview/",
-    "group": "independent",
+    "group": "bakboka",
     "images": []
   },
   {
@@ -593,6 +618,38 @@ window.PORTFOLIO = [
     "live": "",
     "group": "bildspur",
     "images": []
+  },
+  {
+    "id": "plentii",
+    "title": "Plentii",
+    "storyHeading": "What I delivered",
+    "category": "systems",
+    "summary": "Connecting NGOs with people who can help.",
+    "status": "Delivered client project · historical work",
+    "year": "Fixt era",
+    "role": "Technology strategy · Development & delivery · Through Fixt",
+    "lens": "Make a need visible. Make support actionable.",
+    "question": "Non-profits need a way to explain what they need, connect with supporters and show what happened after a contribution.",
+    "approach": "Through Fixt, I led technology strategy, development and delivery for Plentii, a crowdsourcing and crowdfunding platform for NGOs. I worked closely with its external design agency to connect the UX direction with what we could build and deliver. The engagement grew from an MVP launch into two and a half years of continued feature development.",
+    "details": [
+      "Non-profits could present their needs and projects for supporters to discover.",
+      "The platform connected contributions with follow-up reporting about how resources were used.",
+      "My contribution spanned technology strategy, development and delivery, in collaboration with the design agency."
+    ],
+    "learning": "The work connected product and UX decisions to a sustained delivery effort, continuing beyond the first release.",
+    "limits": "Historical work delivered through Fixt. The public site could not be reached during this review, so no live demo is linked. The image is preserved from my LinkedIn project archive; its original resolution is limited.",
+    "artifact": "DELIVERED CLIENT PROJECT · ARCHIVED PRODUCT IMAGE",
+    "repo": "",
+    "live": "",
+    "group": "independent",
+    "images": [
+      {
+        "src": "assets/projects/plentii-mobile-archive.jpg",
+        "presentation": "portrait",
+        "alt": "Archived Plentii mobile interface showing an NGO profile, its needs and donation navigation",
+        "caption": "Archived Plentii mobile product image from my LinkedIn project record. Original image: 225 × 480 px."
+      }
+    ]
   },
   {
     "id": "wollyshare",

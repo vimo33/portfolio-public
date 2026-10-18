@@ -1,0 +1,150 @@
+/* The same VM identity and a quiet material language on every page.
+   No geometry, page heights, media pixels or canvas presentation is changed. */
+:root {
+  --brand-accent: var(--blue, var(--vm-cobalt, #234bdd));
+  --material-surface: #f8f8f2;
+  --material-cool: #234bdd0a;
+  --material-warm: #c7db7a0c;
+  --material-edge: #ffffffa6;
+  --material-shade: #1e2a2512;
+  --material-field: #ffffff80;
+  --material-radius: 10px;
+}
+html[data-theme=dark], html:not([data-theme])[data-vm-theme=dark] {
+  --material-surface: #18201b;
+  --material-cool: #9aaeff0b;
+  --material-warm: #d8e5a209;
+  --material-edge: #ffffff12;
+  --material-shade: #00000024;
+  --material-field: #ffffff05;
+}
+html[data-design-system=mono] {
+  --material-surface: #f8f9f6;
+  --material-cool: #65747708;
+  --material-warm: #ffffff30;
+  --material-edge: #ffffffc0;
+}
+html[data-design-system=mono][data-theme=dark] {
+  --material-surface: #131a1e;
+  --material-cool: #b9d1d609;
+  --material-warm: #eef0ed06;
+  --material-edge: #d5e1e815;
+}
+html[data-design-system=organic] {
+  --material-surface: #fcfaf4;
+  --material-cool: #59afb40b;
+  --material-warm: #dbb47411;
+  --material-edge: #ffeed2a0;
+}
+html[data-design-system=organic][data-theme=dark] {
+  --material-surface: #17231f;
+  --material-cool: #81d1d50b;
+  --material-warm: #ecc18a0a;
+  --material-edge: #efdab61a;
+}
+
+/* The mark inherits the wordmark's contrast, including the dark hero header. */
+.header .brand-mark[data-brand-version], .ds-header .ds-mark[data-brand-version] {
+  display: block;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 40px;
+  font-size: 0;
+  letter-spacing: 0;
+  line-height: 0;
+  transform: none;
+}
+.vm-monogram {display: block; width: 100%; height: 100%; overflow: visible;}
+.vm-monogram path {fill: none; stroke: currentColor; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round;}
+.vm-monogram .vm-monogram-m {stroke: var(--brand-accent);}
+.vm-monogram-points {fill: var(--brand-accent);}
+.vm-monogram-points circle:nth-child(2) {opacity: .65;}
+.vm-monogram-points circle:nth-child(3) {opacity: .4;}
+.portfolio-home .header {--brand-accent: #c9dcda;}
+html[data-design-system=paper] .portfolio-home .header {--brand-accent: #b5c4ff;}
+html[data-design-system=organic] .portfolio-home .header {--brand-accent: #b7e0da;}
+.header .brand, .ds-header .ds-brand {min-height: 44px;}
+
+/* Small surfaces catch the scene's light. Large page backgrounds stay continuous.
+   The renderer may move the shared light; without it the same composition is static. */
+html :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample) {
+  background-color: var(--material-surface);
+  background-image:
+    radial-gradient(ellipse at var(--space-light-x, 22%) var(--space-light-y, 12%), var(--material-warm), transparent 62%),
+    radial-gradient(ellipse at 100% 100%, var(--material-cool), transparent 68%);
+  color: var(--ink, var(--vm-ink, #20241f));
+  border: 0;
+  border-radius: var(--material-radius);
+  box-shadow: 0 12px 38px -18px var(--material-shade), inset 0 1px 0 var(--material-edge);
+}
+/* Match the existing organic selectors so their old framed surfaces do not win. */
+html[data-design-system] :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample) {
+  background-color: var(--material-surface);
+  background-image:
+    radial-gradient(ellipse at var(--space-light-x, 22%) var(--space-light-y, 12%), var(--material-warm), transparent 62%),
+    radial-gradient(ellipse at 100% 100%, var(--material-cool), transparent 68%);
+  color: var(--ink, var(--vm-ink, #20241f));
+  border: 0;
+  border-radius: var(--material-radius);
+  box-shadow: 0 12px 38px -18px var(--material-shade), inset 0 1px 0 var(--material-edge);
+}
+html :is(.ds-code-sample p,.ds-code-sample>.ds-mono) {color: var(--muted, var(--vm-muted, #62665d));}
+html[data-design-system] :is(.ds-code-sample p,.ds-code-sample>.ds-mono) {color: var(--muted, var(--vm-muted, #62665d));}
+
+/* Real screenshots and films keep their original colour and detail. */
+html :is(.case-shot img,.case-video video,.ds-project-card>img) {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 14px 36px -22px var(--material-shade);
+}
+html[data-design-system] :is(.case-shot img,.case-video video,.ds-project-card>img) {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 14px 36px -22px var(--material-shade);
+}
+html .case-shot-portrait .case-image, html[data-design-system] .case-shot-portrait .case-image {
+  background: var(--material-surface);
+  border: 0;
+  border-radius: var(--material-radius);
+  box-shadow: inset 0 1px 0 var(--material-edge);
+}
+html :is(.video-wrap,.time-art) {border-radius: var(--material-radius); box-shadow: 0 16px 38px -25px var(--material-shade);}
+
+/* Input boundaries and validation colours remain explicit, separate from decoration. */
+html :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea),
+html[data-design-system] :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea) {
+  background: var(--material-field);
+  color: var(--ink, #20241f);
+  border-radius: 7px;
+  box-shadow: inset 0 1px 0 var(--material-edge);
+}
+html :is(.case-footer,.inquiry-footer,.ds-footer,.ds-component-section),
+html[data-design-system] :is(.case-footer,.inquiry-footer,.ds-footer,.ds-component-section) {
+  background: transparent;
+  color: var(--ink, var(--vm-ink, #20241f));
+  border: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  .header .brand-mark[data-brand-version], .ds-header .ds-mark[data-brand-version] {flex-basis: 38px; width: 38px; height: 34px;}
+}
+@media (max-width: 390px) {
+  .header .brand-mark[data-brand-version] {flex-basis: 34px; width: 34px; height: 32px;}
+}
+@media (forced-colors: active) {
+  .vm-monogram .vm-monogram-m {stroke: currentColor;}
+  .vm-monogram-points {fill: currentColor;}
+  html :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample),
+  html[data-design-system] :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample) {
+    background: Canvas; color: CanvasText; border: 1px solid CanvasText; box-shadow: none;
+  }
+  html :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea),
+  html[data-design-system] :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea) {box-shadow: none;}
+}
+@media print {
+  html :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample),
+  html[data-design-system] :is(.control-demo,.inquiry-draft,.case-note,.ds-project-card,.ds-code-sample) {
+    background: none; color: #111; box-shadow: none;
+  }
+}

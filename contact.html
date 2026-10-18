@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="vm-release" content="20261018-pixel-story">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Say hello — Vikas Mohan</title>
+  <meta name="description" content="Have an idea, a tool to build, or a collaboration in mind? Tell Vikas a little about it.">
+  <meta name="theme-color" content="#f4f3eb">
+  <link rel="icon" href="assets/favicon.svg?v=20261017-space2" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="theme.js?v=20261016-7"></script>
+  <link rel="stylesheet" href="styles.css?v=20261017-contact">
+  <link rel="stylesheet" href="visual-system.css?v=20261017-review6">
+  <link rel="stylesheet" href="contact.css?v=20261017-review6">
+  <script src="script.js?v=20261017-views" defer></script>
+  <script src="visual-system.js?v=20261018-live1" defer></script>
+  <script src="contact.js?v=20261017-review6" defer></script>
+<link rel="stylesheet" href="living-colour.css?v=20261017-trial1"><link rel="stylesheet" href="layout-system.css?v=20261017-frame5"><link rel="stylesheet" href="story-system.css?v=20261017-story1"><link rel="stylesheet" href="brand-system.css?v=20261017-space2"></head>
+<body id="top" class="contact-page">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header wrap">
+    <a class="brand" href="index.html" aria-label="Vikas Mohan home"><span class="brand-mark" aria-hidden="true">v<span>m</span></span><span>Vikas Mohan<span class="brand-sub">Independent by curiosity.</span></span></a>
+    <nav aria-label="Primary">
+      <a href="index.html#work">Work <span>01</span></a>
+      <a href="index.html#about">Person <span>03</span></a>
+      <a class="nav-contact" href="contact.html" aria-current="page">Say hello ↗</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">Day / Night</button>
+    </nav>
+  </header>
+  <main class="contact-main wrap" id="main" tabindex="-1">
+    <div class="contact-kicker mono"><span>04 / THE NEXT THREAD</span><span>ZURICH ↔ EVERYWHERE IDEAS TRAVEL</span></div>
+    <div class="inquiry-layout">
+      <div class="inquiry-intro">
+        <h1>What are you<br><em>wondering</em><br>about<span class="blue">?</span></h1>
+        <p>A useful tool. A creative experiment. A collaboration that doesn’t quite fit a box.</p>
+        <p>Tell me where your thinking is. A rough sketch is enough to start a conversation.</p>
+        <a class="inquiry-direct" href="mailto:vikasm.22@gmail.com">Or email me directly <span aria-hidden="true">↗</span><small>vikasm.22@gmail.com</small></a>
+        <div class="inquiry-mark" aria-hidden="true">✳</div>
+      </div>
+      <div class="inquiry-workspace">
+        <div class="inquiry-form-heading"><span class="mono">A STARTING POINT</span><h2>Let’s make it tangible.</h2><p>Share a little context. We can figure out the rest together.</p></div>
+        <form id="inquiry-form" novalidate>
+          <div class="inquiry-two-up">
+            <div class="inquiry-field"><label for="inquiry-name">Your name <span>required</span></label><input id="inquiry-name" name="name" autocomplete="name" maxlength="100" required aria-describedby="inquiry-name-error"><p class="inquiry-error" id="inquiry-name-error" hidden></p></div>
+            <div class="inquiry-field"><label for="inquiry-email">Email address <span>required</span></label><input id="inquiry-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="inquiry-email-error"><p class="inquiry-error" id="inquiry-email-error" hidden></p></div>
+          </div>
+          <fieldset class="inquiry-types"><legend>What brings you here?</legend><div class="inquiry-type-options">
+            <label><input type="radio" name="inquiry-type" value="Build a tool" checked><span>Build a tool</span></label>
+            <label><input type="radio" name="inquiry-type" value="Explore an idea"><span>Explore an idea</span></label>
+            <label><input type="radio" name="inquiry-type" value="Collaborate"><span>Collaborate</span></label>
+            <label><input type="radio" name="inquiry-type" value="Something else"><span>Something else</span></label>
+          </div></fieldset>
+          <div class="inquiry-field"><label for="inquiry-details">What do you have in mind? <span>required</span></label><p class="inquiry-hint" id="inquiry-details-hint">What would you like to make or change? Who is it for, and where could I help?</p><textarea id="inquiry-details" name="details" rows="6" maxlength="4000" required aria-describedby="inquiry-details-hint inquiry-details-error"></textarea><p class="inquiry-error" id="inquiry-details-error" hidden></p></div>
+          <details class="inquiry-optional"><summary>Timing or budget in mind? <span>optional</span></summary><div class="inquiry-two-up"><div class="inquiry-field"><label for="inquiry-timing">Timing</label><input id="inquiry-timing" name="timing" type="text" maxlength="120" placeholder="A date, a season, or still exploring"></div><div class="inquiry-field"><label for="inquiry-budget">Budget</label><input id="inquiry-budget" name="budget" type="text" maxlength="120" placeholder="A range, or let’s work it out"></div></div></details>
+          <div class="inquiry-actions"><button class="btn inquiry-prepare" type="submit" id="inquiry-prepare" disabled>Prepare email <span aria-hidden="true">↗</span></button><p>Review your draft before opening your email app.</p></div>
+          <p class="inquiry-privacy">Your details stay in this page until you open your email app or copy the inquiry. Nothing is submitted through this website.</p>
+          <p id="inquiry-status" class="inquiry-status" role="status" aria-live="polite"></p>
+          <noscript><p class="inquiry-noscript">The draft helper needs JavaScript. You can <a href="mailto:vikasm.22@gmail.com">email Vikas directly</a> instead.</p></noscript>
+        </form>
+        <section class="inquiry-draft" id="inquiry-draft" aria-labelledby="inquiry-draft-title" hidden>
+          <div class="inquiry-draft-top"><span class="mono">READY TO REVIEW</span><span class="mono">NOT SENT</span></div>
+          <h2 id="inquiry-draft-title" tabindex="-1">Your conversation starter.</h2>
+          <dl class="inquiry-envelope"><div><dt>To</dt><dd>vikasm.22@gmail.com</dd></div><div><dt>Subject</dt><dd id="inquiry-subject"></dd></div></dl>
+          <label class="sr-only" for="inquiry-copy-text">Prepared inquiry text</label><textarea id="inquiry-copy-text" readonly rows="9" spellcheck="false"></textarea>
+          <p class="inquiry-draft-note" id="inquiry-draft-note">Open your email app to review and send it. If that doesn’t work, copy the inquiry into an email.</p>
+          <div class="inquiry-draft-actions"><a class="btn inquiry-prepare" id="inquiry-open-email" href="mailto:vikasm.22@gmail.com">Open email app <span aria-hidden="true">↗</span></a><button class="btn inquiry-copy" id="inquiry-copy" type="button">Copy inquiry</button></div>
+          <p class="inquiry-copy-status" id="inquiry-copy-status" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </div>
+    <footer class="inquiry-footer"><span>© 2026 Vikas Mohan · Zurich</span><div><a href="https://www.linkedin.com/in/vikas-mohan-2aa2a247/">LinkedIn ↗</a><a href="https://github.com/vimo33">GitHub ↗</a></div><a href="index.html#work">Back to the explorations ↗</a></footer>
+  </main>
+</body>
+</html>

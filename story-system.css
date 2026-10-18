@@ -1,0 +1,22 @@
+/* A continuous canvas: chapters are separated by composition, not bands. */
+html[data-design-system=organic]{--paper:#faf8f2;--lc-canvas:#faf8f2;--lc-contact:#faf8f2}
+html[data-design-system=organic][data-theme=dark]{--paper:#111716;--lc-canvas:#111716;--lc-contact:#111716}
+.portfolio-home.cinematic-story{background:var(--paper);isolation:isolate}
+.cinematic-story>main{position:relative;z-index:1}
+html[data-design-system] .cinematic-story main>section:not(.hero){background:transparent;color:var(--ink);border-block:0;box-shadow:none}
+.cinematic-story .work-explorer[data-presentation=portfolio],
+.cinematic-story .work-explorer[data-view=list],
+.cinematic-story .work-explorer[data-presentation=portfolio] .work-visual,
+.cinematic-story .project-gallery-stage:not(.is-reference){background:transparent}
+.cinematic-story .project-gallery-stage:not(.is-reference):before,
+.cinematic-story .project-gallery-stage:not(.is-reference):after{display:none}
+.cinematic-story :is(.work-visual,.work-selection,.work-scene-footer){border:0}
+.cinematic-story .contact-section footer{border:0}
+.cinematic-story .experience-chapter{border:0}
+.cinematic-story .experience-chapter:last-child{border:0}
+.cinematic-story .experience-chapter>summary{padding-block:15px}
+html[data-design-system] .cinematic-story .contact-section :is(h2 em,.section-label,.contact-link span){color:inherit}
+html[data-design-system] .cinematic-story .work-explorer[data-presentation=portfolio] .project-cards3d:not(.is-reference){background:transparent}
+html[data-design-system] .cinematic-story .work-explorer[data-presentation=portfolio] .project-cards3d:not(.is-reference):before{background:none}
+html[data-design-system] .cinematic-story .work-explorer[data-presentation=portfolio] .project-cards3d:not(.is-reference):after{display:none}
+@media print{.cinematic-story .scroll-life{display:none}}

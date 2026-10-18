@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none">
+  <!-- Original abstract spatial contour study; not a biological illustration. -->
+  <g stroke="#000" stroke-width=".9" stroke-linecap="round">
+    <path d="M32 139C13 95 81 36 147 52C210 67 263 41 285 83C311 132 236 192 178 181C120 170 51 183 32 139Z"/>
+    <path d="M51 144C33 112 84 61 140 70C194 79 245 54 269 91C293 129 231 175 181 166C133 158 70 176 51 144Z" opacity=".72"/>
+    <path d="M70 148C55 123 96 83 143 85C192 86 232 73 251 101C270 129 223 158 184 152C145 146 86 172 70 148Z" stroke-dasharray="1 5"/>
+    <path d="M89 151C76 132 111 104 148 101C183 98 217 88 232 109C247 130 216 143 187 140C156 137 104 169 89 151Z"/>
+    <path d="M38 112C85 143 167 182 246 151M77 62C117 111 169 163 233 180M145 51C167 95 197 129 279 117" opacity=".38" stroke-dasharray="1 7"/>
+  </g>
+  <g stroke="#000" stroke-width="1" stroke-linecap="square">
+    <path d="M17 91h5m-2.5-2.5v5M66 42h5m-2.5-2.5v5M115 38h5m-2.5-2.5v5M206 33h5m-2.5-2.5v5M293 61h5m-2.5-2.5v5M303 154h5m-2.5-2.5v5M249 194h5m-2.5-2.5v5M189 205h5m-2.5-2.5v5M104 190h5m-2.5-2.5v5M31 173h5m-2.5-2.5v5" opacity=".55"/>
+    <path d="M103 118h5m-2.5-2.5v5M138 143h5m-2.5-2.5v5M177 114h5m-2.5-2.5v5M203 129h5m-2.5-2.5v5"/>
+  </g>
+  <g fill="#000" opacity=".4">
+    <circle cx="27" cy="60" r=".8"/><circle cx="89" cy="27" r=".8"/><circle cx="172" cy="24" r=".8"/><circle cx="265" cy="35" r=".8"/><circle cx="309" cy="111" r=".8"/><circle cx="281" cy="183" r=".8"/><circle cx="213" cy="220" r=".8"/><circle cx="146" cy="204" r=".8"/><circle cx="66" cy="205" r=".8"/><circle cx="17" cy="147" r=".8"/>
+  </g>
+</svg>

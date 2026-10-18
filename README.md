@@ -1,29 +1,37 @@
 # Vikas Mohan portfolio
 
-A static field guide to product design, AI-assisted tools and creative exploration. Plain HTML, CSS and JavaScript; no build step or runtime dependencies.
+Public site: [vikas.followtherabbit.studio](https://vikas.followtherabbit.studio/).
+
+A static portfolio of design, AI-assisted tools and creative exploration. Plain HTML, CSS and JavaScript, with a bundled Three.js runtime. No build step is required.
 
 ## Preview
 
-Serve this directory with a local HTTP server, for example `python -m http.server 4178 --bind 127.0.0.1`, then open `http://127.0.0.1:4178`.
+Serve this directory with `python -m http.server 4178 --bind 127.0.0.1`, then open `http://127.0.0.1:4178/`.
 
-## Content
+## Published experience
 
-- `index.html`: editorial landing page, selected work, films, about and contact.
-- `data.js`: public project summaries, stage, contribution, evidence and limits.
-- `project.html?id=brain-os`: shared case-study view. Unknown IDs show a recovery link.
-- `work/take-me-there.html`: preserved legacy route for the spatial project.
-- `script.js`: filtering, case rendering, a local illustrative review interaction and the line sculpture.
-- `styles.css`: shared responsive design and reduced-motion styles.
-- `theme.js`: early day/night preference, persisted by the reader's theme switch.
-- `assets/projects/`: real application captures and labelled original project imagery, including the full RTW pilot dashboard and Nitara's original UX studies.
-- `assets/led-forest.mp4`: Vikas's LED Forest app preview, playable on the home page and project page.
+`index.html` is the approved pixel-grid version. One original procedural material transforms through eight chapters: a search loop, a portal, open brackets, an aperture, a branching canopy, woven paths, three connected stages and an open arch. The hero uses code-generated artwork, with no borrowed video or generated portrait scene.
 
-The checkpoint interaction uses invented data and only changes local page state. It makes no network calls. The sculpture pauses when offscreen or in a hidden tab and respects reduced-motion preferences. There are no analytics or external scripts. Google Fonts are optional; system fonts provide a fallback. The YouTube film opens only when its link is followed; local videos use native controls and do not autoplay.
+`living-form.js` owns the geometry/material; `pixel-story.js` connects it to scrolling. The project sphere shares the material, clock and sample budget. Opacity transfers only after the page artwork aligns into the gallery camera, where project cards occlude it through a shared depth buffer. Text receives soft clearance and media remains legible. Reduced motion uses static poses; Pause artwork freezes ambient motion.
 
-## Content boundaries
+All 22 projects share Sphere, Cards and List views, filters, a complete picker and case pages. Two-axis rotation and selection work while card rotation is paused. Phones default to Cards; reduced-motion and short screens default to List. Longer reading and the interactive example expand deliberately, with accessible close controls.
 
-Describe contributions using Vikas's account and inspected project evidence. RTW is a client pilot for which Vikas led most of the work; other collaborative projects identify their context. Do not count forks as original contributions. Private project screenshots show carefully selected interfaces, with captions distinguishing live views, local previews, snapshots and design studies. Authenticated service links stay in the separate private review hub. Rabbit Stack is a planned open-source distribution, with working components and early packaging; no released installer is claimed. Do not add application materials, private references, credentials or deployment scripts to this repository.
+Day/night and visual-language choices persist between pages. `layout-system.css` supplies consistent screen-sized sections, while `living-colour.css` and `brand-system.css` carry the warm/cool palette. The earlier VM lettering remains in use.
 
-## Review and publishing
+`contact.html` prepares an email draft with a copy fallback. It does not send mail or claim delivery. The checkpoint experiment uses invented data and performs no external action. Form fields are not stored. Google Fonts are optional; the site has system-font fallbacks and no analytics.
 
-Public site: [vikas.followtherabbit.studio](https://vikas.followtherabbit.studio/). The site is a static deployment of this repository. Application materials and private review links remain in the separate local workspace. Keep completed design briefs in the personal memory archive rather than the deployed site.
+## Content and evidence
+
+`data.js` contains public project descriptions, stages, contributions and evidence. `project.html` renders the shared case study; `work/take-me-there.html` preserves the legacy route. `assets/projects/` contains authentic app captures and labelled visual studies. The LED Forest preview and short-film video are Vikas's supplied media.
+
+RTW is an implementation pilot within the Maurus collaboration; Vikas did most of its work. Inventory OS is in use for almost 2,000 studio items. Bakboka groups MPS, Tourism Risk Monitor and Multiplium. Samuha remains active with reduced focus. Rabbit Stack is a planned distribution with working components, not a released installer. Do not invent formal titles, dates or metrics.
+
+Private CVs, LinkedIn drafts, application materials, references, credentials, authenticated app links and deployment scripts stay outside the public Git tree. `_deploy/` is ignored and must never be staged or served.
+
+## Deployment
+
+Coolify serves `vimo33/portfolio-public` from `main` as a static site at the public URL above. The latest release was approved for publication on 18 October 2026. Check the deployment status and public release marker after pushing; a GitHub push alone is not proof of a completed deployment.
+
+## Legacy cleanup
+
+The prior landing page and standalone pixel sample were preserved in the private review archive. The candidate is consolidated into `index.html`; `portfolio-study.html` redirects to it for old preview links. Rejected hero/portrait studies and the experimental foundations pages are excluded from the release. Their local source remains available for future design work. No branches or worktrees are retired by this release. Keep the About portrait and all authentic project evidence.

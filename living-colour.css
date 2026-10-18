@@ -1,0 +1,412 @@
+/*
+ * Living Colour / material trial.
+ * Original surface treatment: warm cores, cool edges, quiet layers and sparse marks.
+ * All selectors require the organic direction. No hero, canvas, media or geometry edits.
+ * Reference gallery surfaces are deliberately excluded; the portfolio treatment is opt-in.
+ */
+html[data-design-system="organic"] {
+  --lc-canvas: #f6f1e7;
+  --lc-surface: #fffaf1;
+  --lc-surface-soft: #ebe8dd;
+  --lc-surface-cool: #e1ede8;
+  --lc-ink: #252d2c;
+  --lc-muted: #58665f;
+  --lc-border: #bbc6ba;
+  --lc-control-border: #73867e;
+  --lc-accent: #28676c;
+  --lc-on-accent: #fffaf1;
+  --lc-accent-soft: #d8e9e5;
+  --lc-cyan: #81c8ce;
+  --lc-amber: #edcc9b;
+  --lc-signal: #f0e0c3;
+  --lc-on-signal: #5f421e;
+  --lc-contact: #e7e5d8;
+  --lc-error: #9d3022;
+  --lc-focus: #1e7078;
+  --lc-edge-warm: #f2cd9380;
+  --lc-edge-cool: #67becb60;
+  --lc-mark: #377e8055;
+  --lc-shadow: #263d3010;
+  --lc-layer: 0 14px 34px var(--lc-shadow), inset 1px 1px 0 var(--lc-edge-warm), inset -1px -1px 0 var(--lc-edge-cool);
+  --lc-radius-panel: 16px;
+  --lc-radius-card: 12px;
+  --lc-radius-control: 999px;
+}
+html[data-design-system="organic"][data-theme="dark"] {
+  --lc-canvas: #111716;
+  --lc-surface: #192724;
+  --lc-surface-soft: #20312c;
+  --lc-surface-cool: #20383a;
+  --lc-ink: #efeddf;
+  --lc-muted: #afc1b8;
+  --lc-border: #4d665e;
+  --lc-control-border: #819b91;
+  --lc-accent: #a2d9d7;
+  --lc-on-accent: #142e2e;
+  --lc-accent-soft: #244345;
+  --lc-cyan: #a2d9d7;
+  --lc-amber: #efc99b;
+  --lc-signal: #352c21;
+  --lc-on-signal: #efd3ab;
+  --lc-contact: #1b2d29;
+  --lc-error: #ffb6a5;
+  --lc-focus: #9ee7ea;
+  --lc-edge-warm: #e5b67532;
+  --lc-edge-cool: #87d9e143;
+  --lc-mark: #9cd9d457;
+  --lc-shadow: #00000028;
+}
+
+/* Local aliases make existing components consume the same materials without
+   changing the root tokens inherited by the paused hero. */
+html[data-design-system="organic"] :is(.case-main,.case-footer,.contact-main,.inquiry-footer,.play-section,.about-section,.films,#experience,.method,.contact-section) {
+  --paper: var(--lc-canvas);
+  --ink: var(--lc-ink);
+  --muted: var(--lc-muted);
+  --line: var(--lc-border);
+  --blue: var(--lc-accent);
+  --acid: var(--lc-amber);
+}
+html[data-design-system="organic"] :is(.case-main,.contact-main,.about-section,.films,#experience,.method) {
+  color: var(--lc-ink);
+}
+html[data-design-system="organic"] :is(.case-heading h1,.inquiry-intro h1,.case-story h2,.ds-section-heading h2,.ds-project-copy h3,.ds-action-card h3) {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+/* Frames hold the image. Light lives on their edges, never on the evidence. */
+html[data-design-system="organic"] :is(.featured-grid .feature,.ds-project-card) {
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-panel);
+  box-shadow: var(--lc-layer);
+}
+html[data-design-system="organic"] .featured-grid .feature {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+}
+html[data-design-system="organic"] .featured-grid .feature-paper {
+  background: var(--lc-surface-cool);
+}
+html[data-design-system="organic"] .featured-grid .feature-blue {
+  background: var(--lc-accent);
+  color: var(--lc-on-accent);
+}
+html[data-design-system="organic"] .featured-grid .feature-blue :is(.feature-top,.feature-copy p) {
+  color: inherit;
+}
+html[data-design-system="organic"] .featured-grid .feature-portal {
+  background: var(--lc-surface-soft);
+  color: var(--lc-ink);
+}
+
+/* Explicitly scoped to Portfolio palette. Reference feel keeps its black baseline. */
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference) {
+  background: var(--paper);
+  --cards-accent: var(--lc-cyan);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference)::before {
+  background: none;
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference) .project-cards3d-surface {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+  border-color: var(--lc-control-border);
+  box-shadow: 0 20px 46px var(--lc-shadow), inset 1px 1px 0 var(--lc-edge-warm), inset -1px -1px 0 var(--lc-edge-cool);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference) .cards-tone-1 .project-cards3d-surface {
+  background: var(--lc-surface-cool);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference) .cards-tone-2 .project-cards3d-surface {
+  background: var(--lc-surface-soft);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d:not(.is-reference) .cards-tone-3 .project-cards3d-surface {
+  background: var(--lc-surface);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d-meta {
+  color: var(--lc-muted);
+  border-color: var(--lc-border);
+}
+html[data-design-system="organic"] .work-explorer[data-presentation="portfolio"] .project-cards3d-status {
+  color: var(--lc-muted);
+}
+html[data-design-system="organic"] .work-explorer[data-view="list"] .project-row {
+  color: var(--lc-ink);
+  border-color: var(--lc-border);
+}
+html[data-design-system="organic"] .work-explorer[data-view="list"] .project-row:hover {
+  background: var(--lc-accent-soft);
+}
+html[data-design-system="organic"] .work-explorer[data-view="list"] .project-row :is(.project-desc,.row-status) {
+  color: var(--lc-muted);
+}
+
+/* Narrative surfaces: a coloured edge signals a change in depth or purpose. */
+html[data-design-system="organic"] .play-section {
+  background: var(--lc-surface-soft);
+  border-block: 1px solid var(--lc-border);
+}
+html[data-design-system="organic"] .control-demo {
+  background: var(--lc-surface);
+  border: 1px solid var(--lc-border);
+  border-radius: 8px;
+  box-shadow: none;
+}
+html[data-design-system="organic"] :is(.demo-header,.evidence-row,.demo-log,.case-meta,.case-next,.experience-grid article,.method,.case-footer,.inquiry-footer) {
+  border-color: var(--lc-border);
+}
+html[data-design-system="organic"] :is(.demo-indicator,.experience-grid .experience-meta,.method article>span,.case-heading .mono) {
+  color: var(--lc-accent);
+}
+html[data-design-system="organic"] .experience-review {
+  background: var(--lc-signal);
+  border-color: var(--lc-control-border);
+  border-radius: var(--lc-radius-card);
+}
+html[data-design-system="organic"] .experience-review :is(p,.experience-meta) {
+  color: var(--lc-on-signal);
+}
+html[data-design-system="organic"] .photo-note {
+  background: var(--lc-amber);
+  color: #302b20;
+  box-shadow: 0 3px 14px #172f2520;
+}
+html[data-design-system="organic"] :is(.case-shot img,.case-video video) {
+  border-color: var(--lc-control-border);
+  border-radius: var(--lc-radius-card);
+}
+html[data-design-system="organic"] .case-shot-portrait .case-image {
+  background: var(--lc-surface-cool);
+  border-color: var(--lc-border);
+  border-radius: var(--lc-radius-panel);
+  box-shadow: var(--lc-layer);
+}
+html[data-design-system="organic"] .case-note {
+  background: var(--lc-signal);
+  color: var(--lc-on-signal);
+  border: 1px solid var(--lc-border);
+  border-inline-start: 3px solid var(--lc-amber);
+  border-radius: 0 var(--lc-radius-card) var(--lc-radius-card) 0;
+}
+html[data-design-system="organic"] .case-visual {
+  background: var(--lc-accent);
+  color: var(--lc-on-accent);
+  border-radius: var(--lc-radius-panel);
+  box-shadow: var(--lc-layer);
+}
+html[data-design-system="organic"] .case-visual .mono {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+}
+html[data-design-system="organic"] .case-lens {
+  color: var(--lc-accent);
+}
+html[data-design-system="organic"] .case-footer {
+  background: var(--lc-surface-soft);
+  color: var(--lc-ink);
+  border-top: 1px solid var(--lc-border);
+}
+
+/* Original abstract contour/point marks occupy empty editorial space only. */
+html[data-design-system="organic"] .case-visual::after {
+  width: min(48%, 360px);
+  height: 100%;
+  inset: 0 0 0 auto;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: currentColor;
+  opacity: .14;
+  -webkit-mask: url('assets/living-colour-contour.svg') center / contain no-repeat;
+  mask: url('assets/living-colour-contour.svg') center / contain no-repeat;
+  pointer-events: none;
+}
+html[data-design-system="organic"] .inquiry-mark {
+  position: relative;
+  width: min(72%, 260px);
+  height: 175px;
+  color: transparent;
+  font-size: 0;
+}
+html[data-design-system="organic"] .inquiry-mark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg,var(--lc-amber) 0%,var(--lc-accent) 48%,var(--lc-cyan) 100%);
+  -webkit-mask: url('assets/living-colour-contour.svg') center / contain no-repeat;
+  mask: url('assets/living-colour-contour.svg') center / contain no-repeat;
+}
+
+/* Contact: the draft is a material card; fields remain clear, quiet work surfaces. */
+html[data-design-system="organic"] .contact-section {
+  background: var(--lc-contact);
+  color: var(--lc-ink);
+  border-top: 1px solid var(--lc-border);
+  box-shadow: inset 0 1px 0 var(--lc-edge-warm);
+}
+html[data-design-system="organic"] .contact-section :is(.section-label,.contact-link span) {
+  color: var(--lc-accent);
+}
+html[data-design-system="organic"] .contact-section h2 em {
+  color: var(--lc-ink);
+}
+html[data-design-system="organic"] .contact-section footer {
+  border-color: var(--lc-border);
+}
+html[data-design-system="organic"] :is(.contact-link,.inquiry-direct) {
+  border-color: var(--lc-control-border);
+}
+html[data-design-system="organic"] .inquiry-draft {
+  background: var(--lc-surface);
+  border: 1px solid var(--lc-border);
+  border-radius: 8px;
+  box-shadow: none;
+}
+html[data-design-system="organic"] :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea) {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+  border-color: var(--lc-control-border);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 var(--lc-edge-warm);
+}
+html[data-design-system="organic"] .inquiry-type-options span {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+  border-color: var(--lc-control-border);
+}
+html[data-design-system="organic"] .inquiry-type-options input:checked+span {
+  background: var(--lc-accent);
+  color: var(--lc-on-accent);
+  border-color: var(--lc-accent);
+  box-shadow: inset 0 1px 0 var(--lc-edge-cool);
+}
+html[data-design-system="organic"] .contact-page {
+  --inquiry-error: var(--lc-error);
+}
+html[data-design-system="organic"] .inquiry-field [aria-invalid="true"] {
+  border-color: var(--lc-error);
+}
+
+/* Foundations describe the same materials. These aliases stop at the sections,
+   leaving the paused point study and its animation untouched. */
+html[data-design-system="organic"] :is(#foundations,#components,#principles,.ds-handoff,.ds-footer,.direction-grid) {
+  --vm-paper: var(--lc-canvas);
+  --vm-ink: var(--lc-ink);
+  --vm-muted: var(--lc-muted);
+  --vm-line: var(--lc-border);
+  --vm-cobalt: var(--lc-accent);
+  --vm-acid: var(--lc-amber);
+  --vm-surface: var(--lc-surface-soft);
+  --vm-focus: 3px solid var(--lc-focus);
+  --vm-radius-panel: var(--lc-radius-panel);
+  --vm-radius-control: var(--lc-radius-control);
+}
+html[data-design-system="organic"] .ds-component-section {
+  background: var(--lc-surface-soft);
+  border-block: 1px solid var(--lc-border);
+}
+html[data-design-system="organic"] .ds-project-card {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-panel);
+  box-shadow: var(--lc-layer);
+}
+html[data-design-system="organic"] .ds-project-card>img {
+  border-color: var(--lc-control-border);
+  border-radius: 8px;
+}
+html[data-design-system="organic"] .ds-swatch {
+  border-radius: var(--lc-radius-card);
+  border-color: var(--lc-control-border);
+}
+html[data-design-system="organic"] .ds-swatch:nth-child(3) {
+  --swatch-ink: var(--lc-on-accent) !important;
+}
+html[data-design-system="organic"] .ds-badge {
+  background: var(--lc-surface);
+  color: var(--lc-muted);
+  border-color: var(--lc-control-border);
+}
+html[data-design-system="organic"] .ds-badge-live {
+  background: var(--lc-accent-soft);
+  color: var(--lc-ink);
+}
+html[data-design-system="organic"] .ds-badge-live::before {
+  background: var(--lc-accent);
+}
+html[data-design-system="organic"] .ds-badge-line {
+  background: transparent;
+}
+html[data-design-system="organic"] .ds-code-sample {
+  background: var(--lc-surface-cool);
+  color: var(--lc-ink);
+  border: 1px solid var(--lc-border);
+  box-shadow: none;
+}
+html[data-design-system="organic"] .ds-code-sample :is(p,.ds-mono) {
+  color: var(--lc-muted);
+}
+
+/* A shared action language, limited to non-hero controls. */
+html[data-design-system="organic"] :is(.case-actions .btn-dark,.inquiry-prepare,.play-section .btn-dark,.ds-component-section .ds-button-primary,.ds-handoff .ds-button-primary) {
+  background: var(--lc-accent);
+  color: var(--lc-on-accent);
+  border-color: var(--lc-accent);
+  border-radius: var(--lc-radius-control);
+  box-shadow: inset 0 1px 0 var(--lc-edge-cool);
+}
+html[data-design-system="organic"] :is(.inquiry-prepare,.ds-component-section .ds-button-primary,.ds-handoff .ds-button-primary)>span {
+  color: inherit;
+}
+html[data-design-system="organic"] :is(.case-actions .btn-line,.inquiry-copy,.play-section .btn-line,.ds-button-secondary) {
+  background: var(--lc-surface);
+  color: var(--lc-ink);
+  border-color: var(--lc-control-border);
+  border-radius: var(--lc-radius-control);
+}
+html[data-design-system="organic"] :is(.demo-tabs button,.inquiry-type-options span) {
+  border-color: var(--lc-control-border);
+}
+html[data-design-system="organic"] .demo-tabs button[aria-pressed="true"] {
+  background: var(--lc-accent);
+  color: var(--lc-on-accent);
+  border-color: var(--lc-accent);
+}
+html[data-design-system="organic"] :is(.case-main,.contact-main,.play-section,.ds-component-section,.ds-handoff) :is(a,button,input,textarea,summary) {
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+html[data-design-system="organic"] :is(.case-main,.contact-main,.play-section,.ds-component-section,.ds-handoff) :is(a,button,input,textarea,summary):focus-visible {
+  outline: 3px solid var(--lc-focus);
+  outline-offset: 4px;
+}
+html[data-design-system="organic"] .inquiry-type-options input:focus-visible+span {
+  outline: 3px solid var(--lc-focus);
+  outline-offset: 4px;
+}
+html[data-design-system="organic"] :is(.case-actions .btn-dark,.inquiry-prepare,.play-section .btn-dark,.ds-component-section .ds-button-primary,.ds-handoff .ds-button-primary):hover {
+  background: var(--lc-ink);
+  color: var(--lc-canvas);
+  border-color: var(--lc-ink);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-design-system="organic"] :is(.case-main,.contact-main,.play-section,.ds-component-section,.ds-handoff) :is(a,button,input,textarea,summary) {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  html[data-design-system="organic"] .case-visual::after,
+  html[data-design-system="organic"] .inquiry-mark::before { display: none; }
+  html[data-design-system="organic"] :is(.featured-grid .feature,.ds-project-card,.control-demo,.inquiry-draft,.case-note,.ds-code-sample) {
+    box-shadow: none;
+    border-color: CanvasText;
+  }
+  html[data-design-system="organic"] :is(.inquiry-field input,.inquiry-field textarea,.inquiry-draft textarea,.inquiry-type-options span) {
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  html[data-design-system="organic"] .inquiry-type-options input:checked+span { border: 3px solid Highlight; }
+}

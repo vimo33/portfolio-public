@@ -1,0 +1,16 @@
+/* Both gallery treatments share one spherical scene; only colour changes. */
+.project-gallery-stage{position:relative;isolation:isolate;overflow:hidden;background:var(--paper,#f4f3eb);color:var(--ink,#20241f);min-height:440px;height:620px;border-radius:2px;--orbit-halo:color-mix(in srgb,var(--blue,#234bdd) 9%,transparent);--orbit-edge:var(--paper,#f4f3eb);--orbit-focus:var(--blue,#234bdd)}
+.project-gallery-stage:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 46%,transparent 20%,var(--orbit-halo) 72%,transparent 100%)}
+.project-gallery-stage:after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;box-shadow:inset 0 0 55px 10px var(--orbit-edge)}
+.project-gallery-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline-offset:-7px!important;z-index:1;opacity:0;transition:opacity .65s ease}
+.project-gallery-stage.is-ready .project-gallery-canvas{opacity:1}
+.project-gallery-canvas:active,.project-gallery-stage.is-dragging .project-gallery-canvas{cursor:grabbing}
+.project-gallery-canvas:focus-visible{outline:2px solid var(--orbit-focus)}
+.project-gallery-stage.is-loading{background:radial-gradient(ellipse at center,var(--orbit-halo),transparent 65%)}
+.project-gallery-stage.is-failed .project-gallery-canvas{display:none}
+.project-gallery-stage.is-ready .work-orbit-title{visibility:hidden}
+.project-gallery-stage.is-reference{background:#000;color:#f4f3ef;--orbit-halo:transparent;--orbit-edge:#000;--orbit-focus:#eef0e6}
+.project-gallery-stage.is-reference:before{display:none}
+.project-gallery-stage.is-reference .work-orbit-title,.project-gallery-stage.is-reference .work-orbit-title em{color:#f4f3ef}
+@media(max-width:720px){.project-gallery-stage{height:440px;min-height:380px}.project-gallery-stage:after{box-shadow:inset 0 0 35px 12px var(--orbit-edge)}}
+@media(prefers-reduced-motion:reduce){.project-gallery-canvas{transition:none}}
