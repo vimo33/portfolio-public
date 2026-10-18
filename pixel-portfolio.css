@@ -1,4 +1,4 @@
-/* Isolated portfolio sample; the default landing page is not changed. */
+/* The procedural story lives in the same frame as the portfolio. */
 html[data-motion-study] .portfolio-home .hero-grid{background:transparent;color:var(--ink)}
 html[data-motion-study] .portfolio-home .hero-grid:after{display:none}
 html[data-motion-study] .portfolio-home .header{color:var(--ink)}
@@ -10,8 +10,13 @@ html[data-motion-study] .hero .hero-bottom p{color:var(--muted)}
 html[data-motion-study] .hero :is(h1 em,.blue){color:var(--blue)}
 html[data-motion-study] .hero .circle-link{color:#14211d;border-color:var(--line)}
 html[data-motion-study] .hero .hero-grid .hero-copy{width:min(48%,640px)}
+.hero-replay{position:absolute;right:var(--pad);bottom:38px;z-index:3;pointer-events:auto;display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:8px 0;border:0;background:transparent;color:var(--muted);font:12px/1.4 var(--body);text-underline-offset:5px}
+.hero-replay:hover{color:var(--ink);text-decoration:underline}
+.hero-replay:focus-visible{outline:2px solid var(--blue);outline-offset:5px}
 .motion-study-note{display:flex;flex-direction:column;gap:10px;margin-top:20px;font:10px/1.4 var(--body);color:var(--muted)}
 .motion-study-note a{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:720px){html[data-motion-study] .hero .hero-grid .hero-copy{width:100%}}
+@media(max-width:720px){.hero-replay{bottom:18px;right:var(--pad);font-size:11px}}
+@media print{.hero-replay{display:none}}
 @media(min-width:721px) and (max-width:1100px) and (max-height:850px){html[data-motion-study] .portfolio-home .play-section{padding-block:32px}}
 @media print{.motion-study-note{display:none}}

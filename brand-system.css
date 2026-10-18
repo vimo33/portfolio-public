@@ -91,6 +91,40 @@ html[data-design-system] :is(.control-demo,.inquiry-draft,.case-note,.ds-project
 html :is(.ds-code-sample p,.ds-code-sample>.ds-mono) {color: var(--muted, var(--vm-muted, #62665d));}
 html[data-design-system] :is(.ds-code-sample p,.ds-code-sample>.ds-mono) {color: var(--muted, var(--vm-muted, #62665d));}
 
+/* The human checkpoint catches blue light, distinct from the page's neutral field. */
+html[data-design-system=organic] .control-demo {
+  --material-surface: #eef4fb;
+  --lc-surface: #eef4fb;
+  --material-cool: #5b9ce51c;
+  --material-warm: #ffffff18;
+  --material-edge: #ffffffb3;
+  --lc-accent: #35669c;
+  --lc-on-accent: #ffffff;
+  --lc-border: #bacbdc;
+  --lc-control-border: #6d89a6;
+  --lc-focus: #35669c;
+  --lc-ink: #223248;
+  --lc-muted: #51667d;
+  --ink: var(--lc-ink);
+  --muted: var(--lc-muted);
+  --line: var(--lc-border);
+  --blue: var(--lc-accent);
+}
+html[data-design-system=organic][data-theme=dark] .control-demo {
+  --material-surface: #172538;
+  --lc-surface: #172538;
+  --material-cool: #639ce51c;
+  --material-warm: #b0cefa06;
+  --material-edge: #b8d8ff24;
+  --lc-accent: #b3d3ff;
+  --lc-on-accent: #142a45;
+  --lc-border: #3f5874;
+  --lc-control-border: #829fbe;
+  --lc-focus: #b3d3ff;
+  --lc-ink: #eef4fc;
+  --lc-muted: #b4c5da;
+}
+
 /* Real screenshots and films keep their original colour and detail. */
 html :is(.case-shot img,.case-video video,.ds-project-card>img) {
   border: 0;

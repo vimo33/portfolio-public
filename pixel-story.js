@@ -1,11 +1,12 @@
 import * as THREE from './assets/vendor/three/three.module.min.js';
-import {createLivingForm, STUDY_SAMPLE_COUNT} from './living-form.js?v=20261018-live1';
+import {createLivingForm, STUDY_SAMPLE_COUNT} from './living-form.js?v=20261018-story6';
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 const mix=(a,b,t)=>a+(b-a)*t;
 const smooth=n=>{const t=clamp(n);return t*t*t*(t*(t*6-15)+10);};
+const INTRO_SECONDS = 8;
 // Positions are fractions of viewport size, leaving space for each chapter's copy.
 const chapters = [
-  { x: .69, y: .43, scale: 1.7, halfX: 3.5, halfY: 3.4 },
+  { x: .71, y: .45, scale: 1.7, halfX: 3.5, halfY: 3.4 },
   { x: .5, y: .51, scale: 1.05, halfX: 3.6, halfY: 3.1 },
   { x: .695, y: .53, scale: 2.45, halfX: 3.6, halfY: 3.2 },
   { x: .51, y: .3, scale: 1.45, halfX: 3.6, halfY: 3.6 },
@@ -25,10 +26,12 @@ const maskSelector = [
  * experience, method, contact, in that order. It never captures input/scroll.
  * refresh() invalidates layout caches after content changes. Pause stops ambient
  * animation; scroll still chooses a static chapter so reading remains usable.
+ * replayIntro() returns to the hero, then smoothly rewinds and starts again.
+ * It returns false when motion is reduced/unavailable or a gallery owns fullscreen.
  */
 export function createLivingSpace({ container, sections = [] } = {}) {
   if (!(container instanceof HTMLElement)) throw new TypeError('Living space needs a container element.');
-  const empty = { setPaused() {}, refresh() {}, dispose() {} };
+  const empty = { setPaused() {}, replayIntro() { return false; }, refresh() {}, dispose() {} };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const forced = matchMedia('(forced-colors: active)');
   container.classList.add('living-space');
@@ -74,6 +77,12 @@ export function createLivingSpace({ container, sections = [] } = {}) {
   let width = 1, height = 1, lastFrame = 0, time = 0, lastScroll = scrollY;
   let layoutDirty = true, scrollDirty = true, renderDirty = true, bounds = [], rects = [], readingRects = [];
   let currentPhase = 0, currentOpacity = 1, energy = .45, storyScroll = scrollY, workMix = 0, galleryBox;
+  const galleryOwnsScreen = () => Boolean(workExplorer &&
+    (workExplorer.classList.contains('is-work-fullscreen') || document.fullscreenElement === workExplorer));
+  // Do not replay an opening over a deep link or a restored reading position.
+  let introProgress = reduced.matches || scrollY > innerHeight * .2 ? 1 : 0;
+  let introElapsed = introProgress * INTRO_SECONDS, rewindElapsed = 0, rewindFrom = 0, rewinding = false;
+  let replayPending = false;
   const cleanups = [];
   const listen = (target, event, callback, options) => {
     target.addEventListener(event, callback, options);
@@ -162,6 +171,12 @@ export function createLivingSpace({ container, sections = [] } = {}) {
   }
   function placeForm() {
     if (!bounds.length) { currentOpacity = 0; return; }
+    if (galleryOwnsScreen()) {
+      // The fullscreen gallery is a separate top layer (or reparented fallback).
+      // Its scene owns the complete Work pose, independent of document scroll.
+      currentPhase = 1; currentOpacity = 0; workMix = 1; scrollDirty = false;
+      return;
+    }
     let index = 0;
     while (index < bounds.length - 1 && storyScroll >= bounds[index + 1].at) index++;
     const next = Math.min(index + 1, bounds.length - 1);
@@ -213,32 +228,89 @@ export function createLivingSpace({ container, sections = [] } = {}) {
     // Design choices can change fonts/line wrapping inside fixed-height chapters.
     layoutDirty = true; renderDirty = true; requestFrame();
   }
+  function updateIntro(elapsed, moving) {
+    if (reduced.matches) { introProgress = 1; introElapsed = INTRO_SECONDS; rewinding = false; replayPending = false; }
+    else {
+      // Story position is already eased, so an early scroll completes the same
+      // formation smoothly. The maximum prevents it collapsing on the way back.
+      const scrollCompletion = smooth(currentPhase / .65);
+      if (rewinding && currentPhase > .12) {
+        rewinding = false; introElapsed = introProgress * INTRO_SECONDS;
+      }
+      if (rewinding) {
+        if (moving) rewindElapsed += elapsed;
+        introProgress = rewindFrom * (1 - smooth(rewindElapsed / .75));
+        if (rewindElapsed >= .75) {
+          rewinding = false;
+          // Carry time beyond the rewind into formation, even at a low cadence.
+          introElapsed = Math.min(INTRO_SECONDS, rewindElapsed - .75);
+          introProgress = introElapsed / INTRO_SECONDS;
+        }
+      } else {
+        if (moving) introElapsed = Math.min(INTRO_SECONDS, introElapsed + elapsed);
+        introProgress = Math.max(introProgress, introElapsed / INTRO_SECONDS, scrollCompletion);
+        if (introProgress >= 1) introElapsed = INTRO_SECONDS;
+      }
+    }
+    container.dataset.introState = replayPending ? 'returning' : rewinding ? 'rewinding' : introProgress >= 1 ? 'complete' :
+      introProgress < .18 ? 'gathering' : introProgress < .84 ? 'unfolding' : 'settling';
+    container.dataset.introProgress = introProgress.toFixed(3);
+    container.dataset.motionState = reduced.matches ? 'reduced' : paused ? 'paused' : 'running';
+  }
+  function settleReplayReturn() {
+    if (!replayPending) return;
+    const heroStart = bounds[0]?.at || 0;
+    // Wait for both the browser scroll and the eased artwork position. Starting
+    // from the previous chapter's phase would immediately complete/cancel replay.
+    if (Math.abs(scrollY - heroStart) > 2 || Math.abs(storyScroll - heroStart) > 2) return;
+    storyScroll = heroStart; placeForm(); replayPending = false;
+    rewinding = introProgress > .001; rewindFrom = introProgress; rewindElapsed = 0; introElapsed = 0;
+    return true;
+  }
   function requestFrame() {
     if (!disposed && !contextLost && !document.hidden && !forced.matches && !raf) raf = requestAnimationFrame(frame);
   }
   function frame(now) {
     raf = 0;
     if (disposed || contextLost || document.hidden || forced.matches) return;
-    const elapsed = lastFrame ? Math.min(.08, (now - lastFrame) / 1000) : 0;
+    // Formation and scroll use real visible time. Only ambient drift is capped:
+    // a slow renderer must not stretch an eight-second sequence into a minute.
+    // Pause/visibility/context changes reset lastFrame before the next frame.
+    const wallElapsed = lastFrame ? Math.max(0, (now - lastFrame) / 1000) : 0;
+    const ambientElapsed = Math.min(.08, wallElapsed);
     const moving = !paused && !reduced.matches;
     // Uniform-only animation at 30fps. DOM layout is read only when invalidated.
-    if (!renderDirty && !layoutDirty && !scrollDirty && elapsed < 1 / 30) { requestFrame(); return; }
+    if (!renderDirty && !layoutDirty && !scrollDirty && wallElapsed < 1 / 30) { requestFrame(); return; }
     lastFrame = now;
-    if (moving) time += elapsed;
+    if (moving) time += ambientElapsed;
     if (layoutDirty) measure();
     const previousStoryScroll=storyScroll;
-    storyScroll=moving?mix(storyScroll,scrollY,1-Math.exp(-elapsed/.85)):scrollY;
+    storyScroll=moving?mix(storyScroll,scrollY,1-Math.exp(-wallElapsed/(replayPending ? .18 : .85))):scrollY;
     if(Math.abs(storyScroll-scrollY)<.05)storyScroll=scrollY;
     if(scrollDirty||storyScroll!==previousStoryScroll)placeForm();
-    form.update({ time, phase: currentPhase, energy, opacity: currentOpacity });
-    window.dispatchEvent(new CustomEvent('livingframe',{detail:{time,phase:currentPhase,energy,paused:!moving,workMix}}));
+    const replayAligned = settleReplayReturn();
+    updateIntro(replayAligned ? 0 : wallElapsed, moving);
+    form.update({ time, phase: currentPhase, energy, opacity: currentOpacity, intro: introProgress });
+    window.dispatchEvent(new CustomEvent('livingframe',{detail:{time,phase:currentPhase,energy,paused:!moving,workMix,intro:introProgress}}));
     renderer.render(scene, camera); renderDirty = false;
     if (moving || storyScroll!==scrollY) requestFrame();
   }
   listen(window, 'scroll', () => { scrollDirty = true; renderDirty = true; requestFrame(); }, { passive: true });
+  // A fresh user gesture can interrupt the requested return; never fight it.
+  const cancelReplayReturn = () => { replayPending = false; };
+  listen(window, 'wheel', cancelReplayReturn, { passive: true });
+  listen(window, 'pointerdown', cancelReplayReturn, { passive: true });
+  listen(window, 'keydown', event => {
+    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) cancelReplayReturn();
+  });
   listen(window, 'resize', () => { resize(); requestFrame(); }, { passive: true });
   listen(window, 'themechange', syncPalette);
   listen(window, 'visualsystemchange', syncPalette);
+  listen(window, 'workfullscreenchange', () => {
+    if (!galleryOwnsScreen()) storyScroll = scrollY;
+    refresh();
+  });
+  listen(document, 'fullscreenchange', refresh);
   listen(document, 'toggle', refresh, true);
   listen(document, 'visibilitychange', () => {
     if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
@@ -276,6 +348,13 @@ export function createLivingSpace({ container, sections = [] } = {}) {
       paused = Boolean(value); lastFrame = 0; scrollDirty = true; renderDirty = true;
       cancelAnimationFrame(raf); raf = 0; requestFrame();
     },
+    replayIntro() {
+      if (disposed || contextLost || forced.matches || reduced.matches || galleryOwnsScreen()) return false;
+      replayPending = true; rewinding = false; lastFrame = 0; renderDirty = true;
+      window.scrollTo({ top: bounds[0]?.at || 0, behavior: 'smooth' });
+      settleReplayReturn();
+      updateIntro(0, false); requestFrame(); return true;
+    },
     refresh,
     dispose() {
       if (disposed) return;
@@ -286,7 +365,8 @@ export function createLivingSpace({ container, sections = [] } = {}) {
         if (value) root.style.setProperty(name, value, priority);
         else root.style.removeProperty(name);
       }
-      container.classList.remove('living-space'); delete container.dataset.state;
+      container.classList.remove('living-space');
+      for (const key of ['state', 'introState', 'introProgress', 'motionState']) delete container.dataset[key];
     },
   };
 }
@@ -299,7 +379,18 @@ if(home){
   const story=createLivingSpace({container,sections:[...document.querySelectorAll('main>section')]});
   let paused=false,button;
   const preference=matchMedia('(prefers-reduced-motion:reduce)');
-  function sync(){story.setPaused(paused);if(button){const unavailable=container.dataset.state==='unavailable';button.textContent=unavailable?'Artwork unavailable':preference.matches?'Motion reduced':paused?'Resume artwork':'Pause artwork';button.disabled=preference.matches||unavailable;button.setAttribute('aria-pressed',String(paused||preference.matches));}}
+  const replay=document.createElement('button');
+  replay.type='button';replay.className='hero-replay';replay.dataset.artworkReplay='';
+  replay.textContent='Replay formation';
+  replay.addEventListener('click',()=>{paused=false;sync();story.replayIntro();});
+  document.querySelector('.hero-grid')?.append(replay);
+  function sync(){
+    story.setPaused(paused);
+    const unavailable=container.dataset.state==='unavailable'||container.dataset.state==='forced-colors';
+    replay.disabled=preference.matches||unavailable;
+    replay.title=preference.matches?'Formation is still because reduced motion is enabled.':'';
+    if(button){button.textContent=unavailable?'Artwork unavailable':preference.matches?'Motion reduced':paused?'Resume artwork':'Pause artwork';button.disabled=preference.matches||unavailable;button.setAttribute('aria-pressed',String(paused||preference.matches));}
+  }
   function mount(){if(button)return;const panel=document.querySelector('.preview-options-panel');if(!panel)return;const group=document.createElement('div');group.className='preview-option-group';button=document.createElement('button');button.type='button';button.addEventListener('click',()=>{paused=!paused;sync();});group.append(button);panel.append(group);sync();}
   mount();document.addEventListener('visualoptionsready',mount,{once:true});preference.addEventListener('change',sync);new MutationObserver(sync).observe(container,{attributes:true,attributeFilter:['data-state']});sync();
 }

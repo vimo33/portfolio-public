@@ -8,7 +8,7 @@ export const STUDY_SAMPLE_COUNT = typeof window !== 'undefined' && window.innerW
 // lattice and material. These are visual interpretations, not biographical claims.
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const TAU = Math.PI * 2;
-const POSE_NAMES = ['Search loop', 'Portal scaffold', 'Open brackets', 'Aperture',
+const POSE_NAMES = ['Unfolding volume', 'Portal scaffold', 'Open brackets', 'Aperture',
   'Branching canopy', 'Woven paths', 'Connected stages', 'Open ripple arch'];
 const BRANCH_ENDS = [[-3, 2.35], [-1.8, 3.05], [-.55, 3.5], [.7, 3.35], [2, 2.85], [3.15, 1.95]];
 const PALETTES = {
@@ -53,25 +53,28 @@ function sampleSurface(target, offset, u, v, sheet, phase) {
   const angle = v * Math.PI;
   let x = 0, y = 0, z = 0;
   if (phase === 0) {
-    // An unfinished curling loop, with a trailing search path and separate folds.
-    // The outline is deliberately open; it gathers into the next architectural pose.
-    let cx, cy, tx, ty;
-    if (u < .72) {
-      const a = -1.5 + u / .72 * 4;
-      cx = Math.sin(a) * 2.1; cy = 1.05 + Math.cos(a) * 1.8;
-      tx = Math.cos(a) * 2.1; ty = -Math.sin(a) * 1.8;
-    } else {
-      const t = (u - .72) / .28, q = 1 - t;
-      const x0 = Math.sin(2.5) * 2.1, y0 = 1.05 + Math.cos(2.5) * 1.8;
-      cx = q * q * q * x0 + 3 * q * q * t * .35 + 3 * q * t * t * .05 - t * t * t * .1;
-      cy = q * q * q * y0 - 3 * q * q * t * .95 - 3 * q * t * t * 1.55 - t * t * t * 2.6;
-      tx = 3 * q * q * (.35 - x0) + 6 * q * t * (.05 - .35) + 3 * t * t * (-.1 - .05);
-      ty = 3 * q * q * (-.95 - y0) + 6 * q * t * (-1.55 + .95) + 3 * t * t * (-2.6 + 1.55);
-    }
-    const length = Math.hypot(tx, ty), ribbon = (sheet - 3.5) * .125;
-    const cross = ribbon + v * (.17 + Math.sin(Math.PI * u) * .21);
-    x = cx - ty / length * cross; y = cy + tx / length * cross;
-    z = (sheet - 3.5) * .21 + Math.sin(u * TAU + sheet * .46) * .35 + Math.sin(v * 2.1) * .23;
+    // One closed membrane follows a spatial knot. Eight adjacent sectors form
+    // its cross-section, rather than eight disconnected ribbons or cut ends.
+    const t = u * TAU, c2 = Math.cos(2 * t), s2 = Math.sin(2 * t);
+    const c3 = Math.cos(3 * t), s3 = Math.sin(3 * t), radius = 2 + c3;
+    const cx = radius * c2 * .93, cy = radius * s2 * .82, cz = s3 * 1.14;
+    let tx = (-3 * s3 * c2 - 2 * radius * s2) * .93;
+    let ty = (-3 * s3 * s2 + 2 * radius * c2) * .82;
+    let tz = 3 * c3 * 1.14;
+    const tangentLength = Math.hypot(tx, ty, tz);
+    tx /= tangentLength; ty /= tangentLength; tz /= tangentLength;
+    const planarLength = Math.hypot(tx, ty), nx = -ty / planarLength, ny = tx / planarLength;
+    const bx = -tz * ny, by = tz * nx, bz = tx * ny - ty * nx;
+    const cross = (sheet + (v + 1) * .5) * TAU / 8;
+    const membrane = .48 + .09 * Math.cos(3 * t + cross * 2);
+    const alongNormal = Math.cos(cross) * membrane, alongBinormal = Math.sin(cross) * membrane * 1.3;
+    const px = cx + nx * alongNormal + bx * alongBinormal;
+    const py = cy + ny * alongNormal + by * alongBinormal;
+    const pz = cz + bz * alongBinormal;
+    // An oblique presentation exposes the folds and their front/back crossings.
+    x = px * .97014 + pz * .24254;
+    const tiltedZ = -px * .24254 + pz * .97014;
+    y = py * .98007 - tiltedZ * .19867; z = py * .19867 + tiltedZ * .98007;
   } else if (phase === 1) {
     // Two rectilinear frames in depth: a scaffold/portal around an empty centre.
     const back = sheet >= 4, beam = sheet % 4;
@@ -149,7 +152,14 @@ function samplingGrid(phase, sheet, count) {
   // A square UV grid on a 13×.7 ribbon produces ribs; these grids keep pixel
   // intervals comparable in both directions while retaining regular spacing.
   let length = 1, width = 1;
-  if (phase === 0) { length = 10.55; width = .8; }
+  if (phase === 0) {
+    length = 29.8; width = .47;
+    // Keep each narrow sector almost rectangular, including the20k budget.
+    // Clamping columns first can leave a final row with only a few pixels,
+    // creating an artificial seam along an otherwise closed membrane.
+    const rows = Math.max(4, Math.round(Math.sqrt(count * width / length)));
+    return { columns: Math.ceil(count / rows), rows };
+  }
   else if (phase === 1) {
     const back = sheet >= 4, vertical = sheet % 4 < 2;
     length = back ? (vertical ? 4.24 : 4.96) : (vertical ? 5.24 : 6.1);
@@ -196,7 +206,7 @@ function buildGeometry(count) {
       const above = (i + columns < end ? i + columns : i) * 3;
       const ux = p[after] - p[before], uy = p[after + 1] - p[before + 1], uz = p[after + 2] - p[before + 2];
       const vx = p[above] - p[below], vy = p[above + 1] - p[below + 1], vz = p[above + 2] - p[below + 2];
-      const direction = sheet % 2 ? 1 : -1;
+      const direction = phase === 0 ? -1 : sheet % 2 ? 1 : -1;
       let nx = (uy * vz - uz * vy) * direction;
       let ny = (uz * vx - ux * vz) * direction;
       let nz = (ux * vy - uy * vx) * direction;
@@ -236,7 +246,7 @@ function buildGeometry(count) {
 const vertexShader = /* glsl */`
   attribute vec3 aPoseNext, aNormal, aNormalNext;
   attribute vec3 aSample;
-  uniform float uPhase, uMorph, uTime, uEnergy, uHeight, uPixelStep;
+  uniform float uPhase, uMorph, uIntro, uTime, uEnergy, uHeight, uPixelStep;
   uniform int uReadCount;
   uniform vec4 uReadRects[48];
   uniform vec2 uReadViewport;
@@ -250,12 +260,29 @@ const vertexShader = /* glsl */`
     vec3 p = mix(position, aPoseNext, f);
     vec3 blendedNormal = mix(aNormal, aNormalNext, f);
     vec3 n = length(blendedNormal) > .0001 ? normalize(blendedNormal) : aNormal;
+    // The intro acts only when explicitly requested by the page. Its endpoint
+    // is exactly the shared geometry; galleries default to uIntro=1.
+    if (uIntro < 1.) {
+      float gather = smoothstep(0., .18, uIntro);
+      float unfold = smoothstep(.14, .94, uIntro);
+      float latitude = aSample.x * 3.14159265;
+      float longitude = (aSample.z + (aSample.y + 1.) * .5) * .78539816;
+      vec3 seedNormal = vec3(sin(latitude) * cos(longitude), cos(latitude), sin(latitude) * sin(longitude));
+      vec3 seed = seedNormal * mix(.76, .25, gather);
+      float twist = (1. - unfold) * (1.1 + p.y * .37);
+      mat2 turn = mat2(cos(twist), sin(twist), -sin(twist), cos(twist));
+      p.xz = turn * p.xz; n.xz = turn * n.xz;
+      p = mix(seed, p, unfold);
+      vec3 formingNormal = mix(seedNormal, n, unfold);
+      n = length(formingNormal) > .0001 ? normalize(formingNormal) : n;
+    }
     float breath = sin(uTime * .26);
     p *= 1. + breath * .008 * uEnergy;
-    p.z += sin(aSample.x * 3.1 + uTime * .2) * .025 * uEnergy;
+    p.z += sin(aSample.x * 6.28318531 + uTime * .2) * .025 * uEnergy;
     float searching = 1. - smoothstep(0., .85, uPhase);
-    p.x += sin(uTime * .16 + aSample.x * 4. + aSample.z * .55) * .08 * uEnergy * searching;
-    p.y += cos(uTime * .13 + aSample.x * 4. + aSample.z * .4) * .06 * uEnergy * searching;
+    float sector = (aSample.z + (aSample.y + 1.) * .5) * .78539816;
+    p.x += sin(uTime * .16 + aSample.x * 6.28318531 + sector) * .055 * uEnergy * searching;
+    p.y += cos(uTime * .13 + aSample.x * 6.28318531 + sector) * .045 * uEnergy * searching;
     vec4 view = modelViewMatrix * vec4(p, 1.);
     gl_Position = projectionMatrix * view;
     vec3 normalView = normalize(normalMatrix * n);
@@ -307,13 +334,14 @@ const fragmentShader = /* glsl */`
 /** Shared synchronous material factory, independent of a renderer or DOM.
  * time is seconds; phase0..7 follows POSE_NAMES with matched sample indices.
  * Hero uses0, Work1, then sections2..7. Object transforms begin at identity.
+ * update({intro}) optionally forms a seed into the volume; default1 is complete.
  * Opaque scene geometry naturally occludes points: depthTest true, depthWrite false.
  */
 export function createLivingForm({ count = 60000, theme = 'light', system = 'organic' } = {}) {
   count = Math.round(clamp(Number(count) || 60000, 8000, 80000));
   const { geometry, selectPhase, sampling, release } = buildGeometry(count);
   const uniforms = {
-    uTime: { value: 0 }, uPhase: { value: 0 }, uMorph: { value: 0 }, uEnergy: { value: 1 }, uOpacity: { value: 1 },
+    uTime: { value: 0 }, uPhase: { value: 0 }, uMorph: { value: 0 }, uIntro: { value: 1 }, uEnergy: { value: 1 }, uOpacity: { value: 1 },
     uHeight: { value: 800 }, uPixelStep: { value: Math.sqrt(60000 / count) }, uDark: { value: 0 },
     uCore: { value: new THREE.Color() }, uLight: { value: new THREE.Color() },
     uEdge: { value: new THREE.Color() }, uShade: { value: new THREE.Color() },
@@ -354,12 +382,13 @@ export function createLivingForm({ count = 60000, theme = 'light', system = 'org
   setPalette();
   return {
     object,
-    update({ time = 0, phase = 0, energy = 1, opacity = 1 } = {}) {
+    update({ time = 0, phase = 0, energy = 1, opacity = 1, intro = 1 } = {}) {
       if (disposed) return;
       uniforms.uTime.value = Number.isFinite(time) ? time : 0;
       uniforms.uPhase.value = clamp(Number.isFinite(phase) ? phase : 0, 0, POSE_NAMES.length - 1);
       selectPhase(uniforms.uPhase.value);
       uniforms.uMorph.value = uniforms.uPhase.value - Math.floor(uniforms.uPhase.value);
+      uniforms.uIntro.value = clamp(Number.isFinite(intro) ? intro : 1);
       uniforms.uEnergy.value = clamp(Number.isFinite(energy) ? energy : 1, 0, 2);
       uniforms.uOpacity.value = clamp(Number.isFinite(opacity) ? opacity : 1);
       points.visible = uniforms.uOpacity.value > .002;

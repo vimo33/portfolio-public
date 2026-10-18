@@ -43,6 +43,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
   let livingForm = null;
   let livingTime = 0;
   let studyFrame = null;
+  let fullscreenFrozenTime = null;
   const listeners = [];
   const textureCache = new Map();
   const textureLoader = new THREE.TextureLoader();
@@ -62,9 +63,17 @@ export async function createProjectGallery({container, projects = [], onSelect =
   canvas.className = 'project-gallery-canvas';
   canvas.tabIndex = 0;
   canvas.setAttribute('role', 'group');
-  canvas.setAttribute('aria-label', 'Interactive project gallery. Drag to turn in two directions; on touch, start horizontally. Left and right arrows select projects, up and down arrows tilt, Enter opens the selection, and Home resets.');
+  canvas.setAttribute('aria-label', 'Interactive project sphere. Drag to turn in two directions; on touch, start horizontally. Left and right arrows select projects, up and down arrows tilt, Enter reads the selected project details, and Home resets.');
   container.classList.add('project-gallery-stage', 'is-loading');
   container.append(canvas);
+  const hoverPreview = document.createElement('div');
+  hoverPreview.className = 'work-hover-preview';
+  hoverPreview.hidden = true;
+  hoverPreview.setAttribute('aria-hidden','true');
+  const hoverTitle = document.createElement('strong');
+  const hoverSummary = document.createElement('span');
+  hoverPreview.append(hoverTitle,hoverSummary);
+  container.append(hoverPreview);
 
   function listen(target, name, fn, options) {
     target.addEventListener(name, fn, options);
@@ -125,7 +134,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
     try {
       // This optional layer must never prevent the real project gallery loading.
       const {createLivingForm, STUDY_SAMPLE_COUNT} = motionStudy
-        ? await import('./living-form.js?v=20261018-live1')
+        ? await import('./living-form.js?v=20261018-story6')
         : await import('./living-space.js?v=20261017-space4');
       if (disposed) return;
       livingForm = createLivingForm({
@@ -158,15 +167,23 @@ export async function createProjectGallery({container, projects = [], onSelect =
     if (motionStudy) {
       // The study's page renderer supplies the same clock and pose to both
       // scenes; only ownership opacity changes as the form enters the cards.
-      if (studyFrame) livingTime = studyFrame.time;
-      else if (canMove) livingTime += dt;
+      const fullscreen = Boolean(container.closest('.is-work-fullscreen'));
+      const sharedTime = studyFrame?.time ?? (livingTime + (canMove ? dt : 0));
+      if (fullscreen && manuallyPaused) {
+        fullscreenFrozenTime ??= sharedTime;
+        livingTime = fullscreenFrozenTime;
+      } else {
+        fullscreenFrozenTime = null;
+        livingTime = sharedTime;
+      }
       livingAnchor.quaternion.identity();
       try {
         livingForm.update({
           time: livingTime,
-          phase: studyFrame?.phase ?? 0,
+          phase: fullscreen ? 1 : studyFrame?.phase ?? 0,
+          intro: fullscreen ? 1 : studyFrame?.intro ?? 1,
           energy: studyFrame?.energy ?? .45,
-          opacity: studyFrame?.workMix ?? 1
+          opacity: fullscreen ? 1 : studyFrame?.workMix ?? 1
         });
       } catch (error) { removeLivingForm(error); }
       return;
@@ -390,7 +407,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
     selected = items.find(project => project.id === previousId) || items[0] || null;
     selectedTile = preferredTile(selected)?.tileIndex ?? -1;
     if (selected) onSelect(selected);
-    canvas.setAttribute('aria-label', `Interactive gallery of ${items.length} projects. Drag to turn in two directions; on touch, start horizontally. Left and right arrows select projects, up and down arrows tilt, Enter opens the selection, and Home resets.`);
+    canvas.setAttribute('aria-label', `Interactive sphere of ${items.length} projects. Drag to turn in two directions; on touch, start horizontally. Left and right arrows select projects, up and down arrows tilt, Enter reads the selected project details, and Home resets.`);
     container.classList.remove('is-loading');
     container.classList.add('is-ready');
     invalidate();
@@ -453,7 +470,8 @@ export async function createProjectGallery({container, projects = [], onSelect =
     currentRotation += (targetRotation - currentRotation) * easing;
     currentPitch += (targetPitch - currentPitch) * easing;
     currentTilt += (targetTilt - currentTilt) * easing;
-    sceneTitle.visible = items.length > 0;
+    // The inspect panel supplies the text; keep the sphere for project imagery.
+    sceneTitle.visible = false;
     shellRotation.setFromEuler(shellEuler.set(.22 + currentPitch + currentTilt * .12, 0, -.14));
     updateLivingForm(dt, canMove);
     for (const card of cards) {
@@ -533,6 +551,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
     focusRotation = null;
     clearTimeout(focusTimer);
     hovered = null;
+    hoverPreview.hidden = true;
     invalidate();
   }
 
@@ -560,6 +579,18 @@ export async function createProjectGallery({container, projects = [], onSelect =
     if (event.pointerType === 'touch') return;
     hovered = hitTest(event);
     canvas.style.cursor = hovered ? 'pointer' : 'grab';
+    hoverPreview.hidden = !hovered;
+    if (hovered) {
+      hoverTitle.textContent = hovered.project.title;
+      hoverSummary.textContent = hovered.project.summary || '';
+      const rect = canvas.getBoundingClientRect();
+      const tipWidth = Math.min(260,Math.max(120,rect.width - 32));
+      hoverPreview.style.width = `${tipWidth}px`;
+      const left = THREE.MathUtils.clamp(event.clientX - rect.left + 16,12,Math.max(12,rect.width-tipWidth-12));
+      const top = THREE.MathUtils.clamp(event.clientY - rect.top + 18,12,Math.max(12,rect.height-hoverPreview.offsetHeight-12));
+      hoverPreview.style.left = `${left}px`;
+      hoverPreview.style.top = `${top}px`;
+    }
     if (!reduced && !manuallyPaused) {
       const rect = canvas.getBoundingClientRect();
       targetTilt = THREE.MathUtils.clamp((event.clientY - rect.top) / rect.height - .5, -.5, .5);
@@ -576,7 +607,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
     const moved = Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y);
     if (!cancelled && !gesture.dragged && moved < 8) {
       const card = hitTest(event);
-      if (card && card.project.id === gesture.card?.project.id) { choose(card.project, false, card); onOpen(card.project); }
+      if (card && card.project.id === gesture.card?.project.id) choose(card.project, true, card);
     }
     invalidate();
   }
@@ -631,6 +662,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
       if (pointer && canvas.hasPointerCapture(pointer.id)) canvas.releasePointerCapture(pointer.id);
       pointer = null;
       hovered = null;
+      hoverPreview.hidden = true;
       container.classList.remove('is-dragging');
     }
     previousTime = 0;
@@ -682,16 +714,17 @@ export async function createProjectGallery({container, projects = [], onSelect =
       phase: THREE.MathUtils.clamp(detail.phase, 0, 7),
       energy: THREE.MathUtils.clamp(detail.energy, 0, 2),
       workMix: THREE.MathUtils.clamp(detail.workMix, 0, 1),
+      intro: Number.isFinite(detail.intro) ? THREE.MathUtils.clamp(detail.intro, 0, 1) : 1,
       paused: Boolean(detail.paused)
     };
-    if (presentation === 'portfolio') invalidate();
+    if (presentation === 'portfolio' && !(manuallyPaused && container.closest('.is-work-fullscreen'))) invalidate();
   });
   listen(canvas, 'pointerdown', pointerDown);
   listen(canvas, 'pointermove', pointerMove);
   listen(canvas, 'pointerup', event => releasePointer(event));
   listen(canvas, 'pointercancel', event => releasePointer(event, true));
   listen(canvas, 'lostpointercapture', event => releasePointer(event, true));
-  listen(canvas, 'pointerleave', () => { if (!pointer) { hovered = null; targetTilt = 0; canvas.style.cursor = 'grab'; invalidate(); } });
+  listen(canvas, 'pointerleave', () => { hoverPreview.hidden = true; if (!pointer) { hovered = null; targetTilt = 0; canvas.style.cursor = 'grab'; invalidate(); } });
   listen(canvas, 'keydown', event => {
     if (event.key === 'ArrowRight') { event.preventDefault(); selectNext(1); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); selectNext(-1); }
@@ -703,7 +736,11 @@ export async function createProjectGallery({container, projects = [], onSelect =
       if (reduced) currentPitch = targetPitch;
       invalidate();
     }
-    else if (event.key === 'Enter' && selected) { event.preventDefault(); onOpen(selected); }
+    else if (event.key === 'Enter' && selected) {
+      event.preventDefault();
+      choose(selected, true, cards.find(card => card.tileIndex === selectedTile));
+      container.dispatchEvent(new CustomEvent('projectinspect',{bubbles:true,detail:{id:selected.id}}));
+    }
     else if (event.key === 'Home') { event.preventDefault(); reset(); }
   });
   listen(canvas, 'webglcontextlost', event => {
@@ -732,6 +769,7 @@ export async function createProjectGallery({container, projects = [], onSelect =
     textureCache.clear();
     renderer.dispose();
     canvas.remove();
+    hoverPreview.remove();
     container.classList.remove('is-loading', 'is-ready', 'is-dragging');
   }
 
