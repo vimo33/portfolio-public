@@ -24,13 +24,17 @@ Day/night and visual-language choices persist between pages. `layout-system.css`
 
 `data.js` contains public project descriptions, stages, contributions and evidence. `project.html` renders the shared case study; `work/take-me-there.html` preserves the legacy route. `assets/projects/` contains authentic app captures and labelled visual studies. The LED Forest preview and short-film video are Vikas's supplied media.
 
+The November 2026 showcases use traceable project material: `led-forest-showcase.mp4` reframes the supplied `led-forest.mp4` 3D preview with its audio omitted; it is not a complete tour of every mode. `sentio-showcase.mp4` records the current prototype with its original Ember room study as a music bed, not synchronized scene-comparison audio. `bildspur-os-showcase.mp4` presents the already-public `assets/projects/bildspur-os.jpg` saved-snapshot capture, not a live operational walkthrough. Matching JPGs are video posters. No unidentified Drive footage is included.
+
+Sentio's playable browser prototype is hosted at `/sentio/` through a separate application route. Intermesh's current case follows the desktop source published on 1 November 2026; its public link opens the product website, not a desktop download. MCP functionality is scaffolding at this stage.
+
 RTW is an implementation pilot within the Maurus collaboration; Vikas did most of its work. Inventory OS is in use for almost 2,000 studio items. Bakboka groups MPS, Tourism Risk Monitor and Multiplium. Samuha remains active with reduced focus. Rabbit Stack is a planned distribution with working components, not a released installer. Do not invent formal titles, dates or metrics.
 
 Private CVs, LinkedIn drafts, application materials, references, credentials, authenticated app links and deployment scripts stay outside the public Git tree. `_deploy/` is ignored and must never be staged or served.
 
 ## Deployment
 
-Coolify serves `vimo33/portfolio-public` from `main` as a static site at the public URL above. The latest release was approved for publication on 18 October 2026. Check the deployment status and public release marker after pushing; a GitHub push alone is not proof of a completed deployment.
+Coolify serves `vimo33/portfolio-public` from `main` as a static site at the public URL above. The November case updates and showcases were authorized for publication alongside the existing October design. Check the deployment status and public content after pushing; a GitHub push alone is not proof of a completed deployment.
 
 ## Legacy cleanup
 

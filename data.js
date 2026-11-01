@@ -20,10 +20,10 @@ window.PORTFOLIO = [
     "learning": "The interface has to serve both a first-time renter and a person performing live. A beautiful effect only matters if the rig is understandable and dependable.",
     "limits": "Working application in continuing development within Bildspur. The video is my app preview; the still capture uses the actual app and a local engine with physical lighting output disabled.",
     "video": {
-      "src": "assets/led-forest.mp4",
-      "poster": "assets/projects/led-forest.jpg",
-      "label": "LED Forest 5 app preview",
-      "caption": "LED Forest 5 · app preview · 26 seconds"
+      "src": "assets/led-forest-showcase.mp4",
+      "poster": "assets/led-forest-showcase.jpg",
+      "label": "LED Forest 5 3D app showcase",
+      "caption": "LED Forest 5 · original app preview · 26 seconds · audio omitted"
     },
     "images": [
       {
@@ -225,7 +225,7 @@ window.PORTFOLIO = [
       "An activity history and approval inbox keep changes inspectable."
     ],
     "learning": "A useful agent needs context and a clear place to return its work. The shared system should show what was proposed, what was accepted and what actually changed.",
-    "limits": "Internal studio system. The screenshot is the application running against a read-only saved snapshot because the live service was unavailable during this review.",
+    "limits": "Internal studio system. The visual overview uses the already-public application capture from a read-only saved snapshot, not a live operational walkthrough. The internal service and its data are not exposed by this case study.",
     "images": [
       {
         "src": "assets/projects/bildspur-os.jpg",
@@ -236,7 +236,13 @@ window.PORTFOLIO = [
     "year": "2026",
     "artifact": "PROJECT FIELD NOTES",
     "repo": "",
-    "live": ""
+    "live": "",
+    "video": {
+      "src": "assets/bildspur-os-showcase.mp4",
+      "poster": "assets/bildspur-os-showcase.jpg",
+      "label": "Bildspur OS visual overview",
+      "caption": "Bildspur OS · 18-second visual overview · actual interface from a saved snapshot"
+    }
   },
   {
     "id": "bildspur-design",
@@ -375,7 +381,7 @@ window.PORTFOLIO = [
       "Local sessions and portable session / audio exports."
     ],
     "learning": "Creative agency can be designed into the smallest interactions: hearing the difference, protecting a choice and changing your mind.",
-    "limits": "Work-in-progress prototype. Current playback is local; this is not a claim that a complete AI music-generation service is already deployed.",
+    "limits": "Public playable prototype. Synthesis and session storage run in your browser. The showcase uses the original Ember room study as its soundtrack; it is not a synchronized audio comparison of each scene. Listening quality and physical-phone acceptance remain unverified. This is not a complete AI music-generation service.",
     "images": [
       {
         "src": "assets/projects/sentio.jpg",
@@ -386,7 +392,13 @@ window.PORTFOLIO = [
     "year": "2026",
     "artifact": "PROJECT FIELD NOTES",
     "repo": "",
-    "live": ""
+    "live": "https://vikas.followtherabbit.studio/sentio/",
+    "video": {
+      "src": "assets/sentio-showcase.mp4",
+      "poster": "assets/sentio-showcase.jpg",
+      "label": "Sentio sound laboratory walkthrough",
+      "caption": "Sentio · recorded prototype walkthrough · 29 seconds · soundtrack: Ember room"
+    }
   },
   {
     "id": "on-off",
@@ -424,25 +436,25 @@ window.PORTFOLIO = [
     "title": "Intermesh",
     "group": "independent",
     "category": "systems",
-    "status": "Prototype · latest version pending",
-    "summary": "Let the network notice what you are working on.",
+    "status": "Local-first desktop prototype",
+    "summary": "A private workspace for the people you already know.",
     "role": "Product concept · network experience design · AI-assisted prototyping",
-    "lens": "From permissioned updates to a room worth joining.",
-    "question": "A network can contain exactly the people you need, while giving you little visibility into what they are thinking about right now.",
-    "approach": "Intermesh is a network-management exploration in which your agent can update what you are working on, within permissions you set. Others can do the same. The agents use those shared updates to propose topic-based cluster rooms, bringing relevant people from your network into a conversation.",
+    "lens": "Keep the context. Find the connection. Choose the next move.",
+    "question": "How can a personal network become easier to understand and maintain without turning relationships into a feed or a list of automated messages?",
+    "approach": "Intermesh is an AI-assisted personal network management prototype. The current desktop direction starts with your own contacts: an encrypted local vault, CSV import, notes, search and a visual mesh. Optional local AI supports exploration, while cluster suggestions and invitation drafts leave the next step with you.",
     "details": [
-      "Permissioned updates about current work and interests.",
-      "Agents exchange the context people choose to share.",
-      "Proposed cluster rooms organise a conversation around a topic.",
-      "People retain a choice about participating and sharing."
+      "Import LinkedIn, Google or template CSV files and add context to contacts.",
+      "Search locally and explore Mesh and Cluster views; mark a core network.",
+      "Use optional Ollama analysis, with core search and organisation available without AI.",
+      "Prepare invitations locally, review them and send them through your own tools."
     ],
-    "learning": "Relevance is only one part of a useful introduction. Context, timing, consent and the shape of the conversation matter too.",
-    "limits": "Prototype work. This account follows the current product direction; screenshots of the latest implementation are pending the version on my other computer.",
+    "learning": "Useful network assistance begins with the relationships you already have. Context and a considered follow-up matter more than automatically expanding a contact list.",
+    "limits": "Working desktop prototype, source updated 1 November 2026. The public link is the product website; a public desktop download is not available. MCP settings and skill definitions are scaffolding, not a working agent server. The earlier hosted experiment is separate from this direction.",
     "images": [],
     "year": "2026",
     "artifact": "PROJECT FIELD NOTES",
     "repo": "",
-    "live": ""
+    "live": "https://intermesh.network/"
   },
   {
     "id": "nitara",
