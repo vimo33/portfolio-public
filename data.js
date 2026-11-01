@@ -18,12 +18,12 @@ window.PORTFOLIO = [
       "Setup, kit status and event-mode handoff support use beyond the developer’s desk."
     ],
     "learning": "The interface has to serve both a first-time renter and a person performing live. A beautiful effect only matters if the rig is understandable and dependable.",
-    "limits": "Working application in continuing development within Bildspur. The video is my app preview; the still capture uses the actual app and a local engine with physical lighting output disabled.",
+    "limits": "Working application in continuing development within Bildspur. The montage combines original July 2026 recordings of 3D mapping, Play and Show controls, Auto-Mix settings and a physical installation test. These are separately edited app and installation clips, not a synchronized end-to-end test or an exhaustive feature tour. Original audio is omitted. The still capture uses the actual app with physical lighting output disabled.",
     "video": {
-      "src": "assets/led-forest-showcase.mp4",
-      "poster": "assets/led-forest-showcase.jpg",
-      "label": "LED Forest 5 3D app showcase",
-      "caption": "LED Forest 5 · original app preview · 26 seconds · audio omitted"
+      "src": "assets/led-forest-montage.mp4",
+      "poster": "assets/led-forest-montage.jpg",
+      "label": "LED Forest 5 mapping, modes and installation montage",
+      "caption": "LED Forest 5 · 3D mapping, Play, Show and installation · 64 seconds · original July 2026 footage"
     },
     "images": [
       {
@@ -392,7 +392,7 @@ window.PORTFOLIO = [
     "year": "2026",
     "artifact": "PROJECT FIELD NOTES",
     "repo": "",
-    "live": "https://vikas.followtherabbit.studio/sentio/",
+    "live": "https://sentio.followtherabbit.studio/",
     "video": {
       "src": "assets/sentio-showcase.mp4",
       "poster": "assets/sentio-showcase.jpg",
