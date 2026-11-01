@@ -20,8 +20,8 @@ window.PORTFOLIO = [
     "learning": "The interface has to serve both a first-time renter and a person performing live. A beautiful effect only matters if the rig is understandable and dependable.",
     "limits": "Working application in continuing development within Bildspur. The montage combines original July 2026 recordings of 3D mapping, Play and Show controls, Auto-Mix settings and a physical installation test. These are separately edited app and installation clips, not a synchronized end-to-end test or an exhaustive feature tour. Original audio is omitted. The still capture uses the actual app with physical lighting output disabled.",
     "video": {
-      "src": "assets/led-forest-montage.mp4",
-      "poster": "assets/led-forest-montage.jpg",
+      "src": "assets/led-forest-montage.mp4?v=57d7817",
+      "poster": "assets/led-forest-montage.jpg?v=57d7817",
       "label": "LED Forest 5 mapping, modes and installation montage",
       "caption": "LED Forest 5 · 3D mapping, Play, Show and installation · 64 seconds · original July 2026 footage"
     },
